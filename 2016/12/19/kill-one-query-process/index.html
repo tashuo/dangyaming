@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, ta_shuo" />
+  <meta name="keywords" content="mysql," />
 
 
 
@@ -84,15 +84,22 @@
 
 
 
-<meta name="description" content="我们坐着不同的井 望着同样的天">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Just kidding">
-<meta property="og:url" content="http://www.mkidding.com/index.html">
+<meta name="description" content="场景：MySQL出现“too many connections”错误  
+MySQL默认会额外保留一条供root用户建立的连接，以确保root用户可随时登录查看并检测服务器状态，当出现上述场景时，我们就可通过show [full] processlist命令查看当前所有进程状态，通过kill掉某些慢sql及分析产生原因来优化sql代码. 操作如下.
+查看mysql所有执行状态mysql&amp;gt; s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL连接数过多的处理">
+<meta property="og:url" content="http://www.mkidding.com/2016/12/19/kill-one-query-process/index.html">
 <meta property="og:site_name" content="Just kidding">
-<meta property="og:description" content="我们坐着不同的井 望着同样的天">
+<meta property="og:description" content="场景：MySQL出现“too many connections”错误  
+MySQL默认会额外保留一条供root用户建立的连接，以确保root用户可随时登录查看并检测服务器状态，当出现上述场景时，我们就可通过show [full] processlist命令查看当前所有进程状态，通过kill掉某些慢sql及分析产生原因来优化sql代码. 操作如下.
+查看mysql所有执行状态mysql&amp;gt; s">
+<meta property="og:updated_time" content="2016-12-19T03:34:28.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Just kidding">
-<meta name="twitter:description" content="我们坐着不同的井 望着同样的天">
+<meta name="twitter:title" content="MySQL连接数过多的处理">
+<meta name="twitter:description" content="场景：MySQL出现“too many connections”错误  
+MySQL默认会额外保留一条供root用户建立的连接，以确保root用户可随时登录查看并检测服务器状态，当出现上述场景时，我们就可通过show [full] processlist命令查看当前所有进程状态，通过kill掉某些慢sql及分析产生原因来优化sql代码. 操作如下.
+查看mysql所有执行状态mysql&amp;gt; s">
 
 
 
@@ -120,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="http://www.mkidding.com/"/>
+  <link rel="canonical" href="http://www.mkidding.com/2016/12/19/kill-one-query-process/"/>
 
 
 
 
 
-  <title> Just kidding </title>
+  <title> MySQL连接数过多的处理 | Just kidding </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -156,9 +163,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -247,9 +252,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -282,10 +287,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2016/12/19/kill-one-query-process/" itemprop="url">
-                  MySQL连接数过多的处理
-                </a>
+                MySQL连接数过多的处理
               
             
           </h1>
@@ -359,9 +361,7 @@
       
 
       
-        
-          
-            <p>场景：MySQL出现“too many connections”错误  </p>
+        <p>场景：MySQL出现“too many connections”错误  </p>
 <p>MySQL默认会额外保留一条供root用户建立的连接，以确保root用户可随时登录查看并检测服务器状态，当出现上述场景时，我们就可通过<code>show [full] processlist</code>命令查看当前所有进程状态，通过kill掉某些慢sql及分析产生原因来优化sql代码. 操作如下.</p>
 <h3 id="查看mysql所有执行状态"><a href="#查看mysql所有执行状态" class="headerlink" title="查看mysql所有执行状态"></a>查看mysql所有执行状态</h3><p><code>mysql&gt; show full processlist</code>  </p>
 <p>如果MySQL登录用户有<a href="http://dev.mysql.com/doc/refman/5.7/en/privileges-provided.html#priv_process" target="_blank" rel="external">PROCESS权限</a>，列表会输出所有进程信息，否则只有当前登录用户所属的进程，若不加full关键字，Info字段信息会只截取前100个字符显示.  </p>
@@ -377,181 +377,62 @@
 <h3 id="杀掉某个进程"><a href="#杀掉某个进程" class="headerlink" title="杀掉某个进程"></a>杀掉某个进程</h3><p><code>mysql&gt; kill {id}</code>  </p>
 <p>通过上面的state/Command/Time字段可大致判断出有问题的sql语句，可通过kill命令杀掉该进程，MySQL命令只能一个个kill进程，批量kill需结合循环进行，示例如下:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">    <span class="comment"># kill掉阻塞到当前状态已超过200秒的进程</span></div><div class="line">    $result = mysqli_query(<span class="string">"SHOW FULL PROCESSLIST"</span>);</div><div class="line">    <span class="keyword">while</span> ($row = mysqli_fetch_array($result)) &#123;</div><div class="line">      $process_id = $row[<span class="string">"Id"</span>];</div><div class="line">      <span class="keyword">if</span> ($row[<span class="string">"Time"</span>] &gt; <span class="number">200</span> ) &#123;</div><div class="line">        $sql = <span class="string">"KILL $process_id"</span>;</div><div class="line">        mysqli_query($sql);</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
 
-          
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
 
     <footer class="post-footer">
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://www.mkidding.com/2016/12/18/new-begining/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="ta_shuo">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="http://ogslmd0ql.bkt.clouddn.com/oUkcKj6KyFo9sOkbc4QkIQIKh688_583916a5371c5">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Just kidding">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Just kidding" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/18/new-begining/" itemprop="url">
-                  新的开始
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-18T00:31:34+08:00">
-                2016-12-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category" >
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/life/" itemprop="url" rel="index">
-                    <span itemprop="name">生活</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
+            <a href="/tags/mysql/" rel="tag"># mysql</a>
           
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <a href="/2016/12/18/new-begining/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/18/new-begining/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <p>从厦门回广州也有一段时日，终于有心思又折腾起博客来。</p>
-<p>从最开始自己写的简陋的博客程序，接着转Wordpress，再之后就是托管在github gh-pages的静态页面，辗转多次积攒许久的博客已无影踪，就像丢失一件陪伴多年很少用的劳什子，依然会心有戚戚，毕竟是’我’的东西，就如已消逝的过去的我的遗物，没经过’他’的同意擅自丢弃，也不太好吧。</p>
-<p>所以就重新开始权当对过去的一点补偿，关于生活，关于工作，关于兴趣或多或少都要表达出来，要么是话语要么就是文字，希望自己能坚持下去，加油 😬</p>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/18/new-begining/" rel="next" title="新的开始">
+                <i class="fa fa-chevron-left"></i> 新的开始
+              </a>
+            
+          </div>
 
-          
-        
-      
-    </div>
+          <span class="post-nav-divider"></span>
 
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
       
 
       
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -559,6 +440,14 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/12/19/kill-one-query-process/"
+           data-title="MySQL连接数过多的处理" data-url="http://www.mkidding.com/2016/12/19/kill-one-query-process/">
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -578,8 +467,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="http://ogslmd0ql.bkt.clouddn.com/oUkcKj6KyFo9sOkbc4QkIQIKh688_583916a5371c5"
@@ -632,6 +530,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#查看mysql所有执行状态"><span class="nav-number">1.</span> <span class="nav-text">查看mysql所有执行状态</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#id"><span class="nav-number">1.1.</span> <span class="nav-text">id</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#User"><span class="nav-number">1.2.</span> <span class="nav-text">User</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Host"><span class="nav-number">1.3.</span> <span class="nav-text">Host</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#db"><span class="nav-number">1.4.</span> <span class="nav-text">db</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Command"><span class="nav-number">1.5.</span> <span class="nav-text">Command</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Time"><span class="nav-number">1.6.</span> <span class="nav-text">Time</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#State"><span class="nav-number">1.7.</span> <span class="nav-text">State</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Info"><span class="nav-number">1.8.</span> <span class="nav-text">Info</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#杀掉某个进程"><span class="nav-number">2.</span> <span class="nav-text">杀掉某个进程</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>
@@ -719,6 +633,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
