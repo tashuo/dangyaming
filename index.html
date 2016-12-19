@@ -371,8 +371,7 @@
 
       
         
-          
-            <p>vim常用命令</p>
+          <p>vim常用命令</p>
 <ul>
 <li><p>列编辑<br>鼠标移动到对应位置，ctrl+v进入列编辑选中要修改的块，shift+i进入编辑模式，输入内容，第一行变化，连续按两次 esc 键，刚才列编辑选中的所有行都发生变化</p>
 </li>
@@ -400,14 +399,14 @@
 <li>行尾：$</li>
 <li>定位到第几行：数字＋G</li>
 <li>文件头部：gg</li>
-<li>文件尾部：G</li>
-</ul>
-</li>
-<li><p>待续…</p>
-</li>
-</ul>
-
-          
+<li>文件尾部：G
+          <!--noindex-->
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/12/19/vim-command/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -867,11 +866,10 @@
 
       
         
-          
-            <p>场景：MySQL出现“too many connections”错误  </p>
+          <p>场景：MySQL出现“too many connections”错误  </p>
 <p>MySQL默认会额外保留一条供root用户建立的连接，以确保root用户可随时登录查看并检测服务器状态，当出现上述场景时，我们就可通过<code>show [full] processlist</code>命令查看当前所有进程状态，通过kill掉某些慢sql及分析产生原因来优化sql代码. 操作如下.</p>
 <h3 id="查看mysql所有执行状态"><a href="#查看mysql所有执行状态" class="headerlink" title="查看mysql所有执行状态"></a>查看mysql所有执行状态</h3><p><code>mysql&gt; show full processlist</code>  </p>
-<p>如果MySQL登录用户有<a href="http://dev.mysql.com/doc/refman/5.7/en/privileges-provided.html#priv_process" target="_blank" rel="external">PROCESS权限</a>，列表会输出所有进程信息，否则只有当前登录用户所属的进程，若不加full关键字，Info字段信息会只截取前100个字符显示.  </p>
+<p>如果MySQL登录用户有<a href="http://dev.mysql.com/doc/refman/5.7/en/privileges-provided.html#priv_process">PROCESS权限</a>，列表会输出所有进程信息，否则只有当前登录用户所属的进程，若不加full关键字，Info字段信息会只截取前100个字符显示.  </p>
 <p>列表字段说明：</p>
 <h4 id="id"><a href="#id" class="headerlink" title="id"></a>id</h4><p>MySQL连接的id标示</p>
 <h4 id="User"><a href="#User" class="headerlink" title="User"></a>User</h4><p>建立此次连接的MySQL user</p>
@@ -879,12 +877,15 @@
 <h4 id="db"><a href="#db" class="headerlink" title="db"></a>db</h4><p>操作的数据库，可能为null</p>
 <h4 id="Command"><a href="#Command" class="headerlink" title="Command"></a>Command</h4><p>当前sql语句的类型，一般为休眠（sleep），查询（query），连接（connect）</p>
 <h4 id="Time"><a href="#Time" class="headerlink" title="Time"></a>Time</h4><p>当前进程在当前状态停留的时间，单位秒</p>
-<h4 id="State"><a href="#State" class="headerlink" title="State"></a>State</h4><p>当前进程的<a href="http://dev.mysql.com/doc/refman/5.7/en/general-thread-states.html" target="_blank" rel="external">执行状态</a>，大部分的状态切换很快，<strong>如果发现某个进程在某个状态阻塞很久说明sql执行可能有问题</strong></p>
-<h4 id="Info"><a href="#Info" class="headerlink" title="Info"></a>Info</h4><p>进程详情信息，如select查询进程此处会是select语句</p>
-<h3 id="杀掉某个进程"><a href="#杀掉某个进程" class="headerlink" title="杀掉某个进程"></a>杀掉某个进程</h3><p><code>mysql&gt; kill {id}</code>  </p>
-<p>通过上面的state/Command/Time字段可大致判断出有问题的sql语句，可通过kill命令杀掉该进程，MySQL命令只能一个个kill进程，批量kill需结合循环进行，示例如下:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">    <span class="comment"># kill掉阻塞到当前状态已超过200秒的进程</span></div><div class="line">    $result = mysqli_query(<span class="string">"SHOW FULL PROCESSLIST"</span>);</div><div class="line">    <span class="keyword">while</span> ($row = mysqli_fetch_array($result)) &#123;</div><div class="line">      $process_id = $row[<span class="string">"Id"</span>];</div><div class="line">      <span class="keyword">if</span> ($row[<span class="string">"Time"</span>] &gt; <span class="number">200</span> ) &#123;</div><div class="line">        $sql = <span class="string">"KILL $process_id"</span>;</div><div class="line">        mysqli_query($sql);</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
-
-          
+<h4 id="State"><a href="#State" class="headerlink" title="State"></a>State</h4><p>当前进程的<a href="http://dev.mysql.com/doc/refman/5.7/en/general-thread-states.html">执行状态</a>，大部分的状态切换很快，<strong>如果发现某个进程在某个状态阻塞很久说明sql执行可能有问题</strong></p>
+<h4 id="Info"><a href="#Info" class="headerlink" title="Info"></a>Info</h4><p>进程详情信息，如select查询进程此处会是select语句<br>
+          <!--noindex-->
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/12/19/mysql-too-many-connections/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>

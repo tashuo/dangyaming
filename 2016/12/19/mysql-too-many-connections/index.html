@@ -94,7 +94,7 @@ MySQL默认会额外保留一条供root用户建立的连接，以确保root用�
 <meta property="og:description" content="场景：MySQL出现“too many connections”错误  
 MySQL默认会额外保留一条供root用户建立的连接，以确保root用户可随时登录查看并检测服务器状态，当出现上述场景时，我们就可通过show [full] processlist命令查看当前所有进程状态，通过kill掉某些慢sql及分析产生原因来优化sql代码. 操作如下.
 查看mysql所有执行状态mysql&amp;gt; s">
-<meta property="og:updated_time" content="2016-12-19T03:37:42.000Z">
+<meta property="og:updated_time" content="2016-12-19T11:16:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL连接数过多的处理">
 <meta name="twitter:description" content="场景：MySQL出现“too many connections”错误  
@@ -373,7 +373,7 @@ MySQL默认会额外保留一条供root用户建立的连接，以确保root用�
 <h4 id="Command"><a href="#Command" class="headerlink" title="Command"></a>Command</h4><p>当前sql语句的类型，一般为休眠（sleep），查询（query），连接（connect）</p>
 <h4 id="Time"><a href="#Time" class="headerlink" title="Time"></a>Time</h4><p>当前进程在当前状态停留的时间，单位秒</p>
 <h4 id="State"><a href="#State" class="headerlink" title="State"></a>State</h4><p>当前进程的<a href="http://dev.mysql.com/doc/refman/5.7/en/general-thread-states.html" target="_blank" rel="external">执行状态</a>，大部分的状态切换很快，<strong>如果发现某个进程在某个状态阻塞很久说明sql执行可能有问题</strong></p>
-<h4 id="Info"><a href="#Info" class="headerlink" title="Info"></a>Info</h4><p>进程详情信息，如select查询进程此处会是select语句</p>
+<h4 id="Info"><a href="#Info" class="headerlink" title="Info"></a>Info</h4><p>进程详情信息，如select查询进程此处会是select语句<br><a id="more"></a></p>
 <h3 id="杀掉某个进程"><a href="#杀掉某个进程" class="headerlink" title="杀掉某个进程"></a>杀掉某个进程</h3><p><code>mysql&gt; kill {id}</code>  </p>
 <p>通过上面的state/Command/Time字段可大致判断出有问题的sql语句，可通过kill命令杀掉该进程，MySQL命令只能一个个kill进程，批量kill需结合循环进行，示例如下:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">    <span class="comment"># kill掉阻塞到当前状态已超过200秒的进程</span></div><div class="line">    $result = mysqli_query(<span class="string">"SHOW FULL PROCESSLIST"</span>);</div><div class="line">    <span class="keyword">while</span> ($row = mysqli_fetch_array($result)) &#123;</div><div class="line">      $process_id = $row[<span class="string">"Id"</span>];</div><div class="line">      <span class="keyword">if</span> ($row[<span class="string">"Time"</span>] &gt; <span class="number">200</span> ) &#123;</div><div class="line">        $sql = <span class="string">"KILL $process_id"</span>;</div><div class="line">        mysqli_query($sql);</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
 
