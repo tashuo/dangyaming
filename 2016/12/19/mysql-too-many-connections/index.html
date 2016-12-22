@@ -131,9 +131,11 @@ MySQL默认会额外保留一条供root用户建立的连接，以确保root用�
 
 
 <script type="text/javascript">
-       var host = "https://www.mkidding.com";
-       if ((host == window.location.host) && (window.location.protocol != "https:"))
-           window.location.protocol = "https";
+	console.log(window.location.protocol)
+	console.log(window.location.host)
+    var host = "http://www.mkidding.com";
+    if ((host == window.location.host) && (window.location.protocol != "https:"))
+        window.location.protocol = "https";
 </script>
 
 
