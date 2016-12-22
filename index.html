@@ -258,6 +258,181 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://www.mkidding.com/2016/12/22/symfony-easyadmin-begin/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ta_shuo">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ogslmd0ql.bkt.clouddn.com/oUkcKj6KyFo9sOkbc4QkIQIKh688_583916a5371c5">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Just kidding">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Just kidding" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/12/22/symfony-easyadmin-begin/" itemprop="url">
+                  Symfony EasyAdminBundle初体验
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-22T12:01:13+08:00">
+                2016-12-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/symfony/" itemprop="url" rel="index">
+                    <span itemprop="name">symfony</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/symfony/笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/2016/12/22/symfony-easyadmin-begin/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/22/symfony-easyadmin-begin/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="安装symfony"><a href="#安装symfony" class="headerlink" title="安装symfony"></a>安装<a href="http://symfony.com/doc/current/setup.html">symfony</a></h2><h3 id="Linux-OSX"><a href="#Linux-OSX" class="headerlink" title="Linux/OSX"></a>Linux/OSX</h3><ul>
+<li><code>$ sudo curl -LsS https://symfony.com/installer -o /usr/local/bin/symfony</code></li>
+<li><code>$ sudo chmod a+x /usr/local/bin/symfony</code></li>
+</ul>
+<h3 id="OSX"><a href="#OSX" class="headerlink" title="OSX"></a>OSX</h3><ul>
+<li><code>$ brew install homebrew/php/symfony-installer</code></li>
+</ul>
+<h2 id="新建symfony项目"><a href="#新建symfony项目" class="headerlink" title="新建symfony项目"></a>新建symfony项目</h2><p><code>$ symfony new my_project_name [version]</code>  </p>
+<p>symfony 3.0 开始需PHP版本不低于5.5.9, 2.x版本支持PHP 5.3.x版本, 需要根据自己的PHP版本来确定symfony项目的版本, version参数不加默认是master分支, 具体可查 <a href="https://github.com/symfony/symfony/blob/master/composer.json">symfony的composer.json文件</a> </p>
+<p>也可用composer方式新建项目: <code>composer create-project symfony/framework-standard-edition my_project_name &quot;[version]&quot;</code>  </p>
+<p>测试项目是否初始化成功</p>
+<ul>
+<li>进入到 <code>my_project_name</code> 文件夹  </li>
+<li>启动php内置web服务 <code>php bin/console server:run</code></li>
+<li>访问 <code>http://localhost:8000</code> 即可看到symfony欢迎页面</li>
+</ul>
+<p><strong>注: symfony 3.0之前的版本console文件路径是 app/console, 之后的是 bin/console, 下文默认使用3.0后的版本, 如果你的环境是2.x版本则需改为 app/console</strong></p>
+<h2 id="初始化数据库"><a href="#初始化数据库" class="headerlink" title="初始化数据库"></a>初始化数据库</h2><p><strong>注: 若数据库已存在则不需要这个过程, 只需将配置文件中 database_name 字段修改为所用数据库名称</strong></p>
+<h3 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h3><p>编辑 app/config/parameters.yml, 修改 <code>database_</code> 相关字段的配置<br>
+          <!--noindex-->
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/12/22/symfony-easyadmin-begin/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://www.mkidding.com/2016/12/20/kidding/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1243,7 +1418,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-count">7</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -1251,7 +1426,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -1260,7 +1435,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
