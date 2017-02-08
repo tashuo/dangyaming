@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, ta_shuo" />
+  <meta name="keywords" content="session," />
 
 
 
@@ -84,16 +84,22 @@
 
 
 
-<meta name="description" content="我深深的爱着你😚你却爱着一个傻逼😞傻逼也没关系😉我就是 那个傻逼😎啦啦啦啦啦啦啦…">
+<meta name="description" content="session start手工开启之前需先判断是否已经启动, 两种判断:
+PHP版本 &amp;lt; 5.4.0123456&amp;lt;?php    // 通过session_id亦可适用于高版本    if (session_id() == &apos;&apos;) &amp;#123;         session_start();     &amp;#125;?&amp;gt;
+PHP版本 &amp;gt;= 5.4.0123456&amp;lt;?ph">
 <meta property="og:type" content="article">
-<meta property="og:title" content="我不会织毛衣">
-<meta property="og:url" content="https://www.mkidding.com/2016/12/20/kidding/index.html">
+<meta property="og:title" content="session的开启与关闭">
+<meta property="og:url" content="https://www.mkidding.com/2017/02/08/session-start-and-destroy/index.html">
 <meta property="og:site_name" content="Just kidding">
-<meta property="og:description" content="我深深的爱着你😚你却爱着一个傻逼😞傻逼也没关系😉我就是 那个傻逼😎啦啦啦啦啦啦啦…">
-<meta property="og:updated_time" content="2016-12-20T16:18:37.000Z">
+<meta property="og:description" content="session start手工开启之前需先判断是否已经启动, 两种判断:
+PHP版本 &amp;lt; 5.4.0123456&amp;lt;?php    // 通过session_id亦可适用于高版本    if (session_id() == &apos;&apos;) &amp;#123;         session_start();     &amp;#125;?&amp;gt;
+PHP版本 &amp;gt;= 5.4.0123456&amp;lt;?ph">
+<meta property="og:updated_time" content="2017-02-08T09:19:42.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="我不会织毛衣">
-<meta name="twitter:description" content="我深深的爱着你😚你却爱着一个傻逼😞傻逼也没关系😉我就是 那个傻逼😎啦啦啦啦啦啦啦…">
+<meta name="twitter:title" content="session的开启与关闭">
+<meta name="twitter:description" content="session start手工开启之前需先判断是否已经启动, 两种判断:
+PHP版本 &amp;lt; 5.4.0123456&amp;lt;?php    // 通过session_id亦可适用于高版本    if (session_id() == &apos;&apos;) &amp;#123;         session_start();     &amp;#125;?&amp;gt;
+PHP版本 &amp;gt;= 5.4.0123456&amp;lt;?ph">
 
 
 
@@ -121,7 +127,7 @@
 
 
 
-  <link rel="canonical" href="https://www.mkidding.com/2016/12/20/kidding/"/>
+  <link rel="canonical" href="https://www.mkidding.com/2017/02/08/session-start-and-destroy/"/>
 
 
 <script type="text/javascript">
@@ -131,7 +137,7 @@
 </script>
 
 
-  <title> 我不会织毛衣 | Just kidding </title>
+  <title> session的开启与关闭 | Just kidding </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -261,7 +267,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://www.mkidding.com/2016/12/20/kidding/">
+  <link itemprop="mainEntityOfPage" href="https://www.mkidding.com/2017/02/08/session-start-and-destroy/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="ta_shuo">
@@ -285,7 +291,7 @@
             
             
               
-                我不会织毛衣
+                session的开启与关闭
               
             
           </h1>
@@ -298,8 +304,8 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-20T23:57:42+08:00">
-                2016-12-20
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-08T16:52:50+08:00">
+                2017-02-08
               </time>
             
 
@@ -317,8 +323,19 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/life/" itemprop="url" rel="index">
-                    <span itemprop="name">生活</span>
+                  <a href="/categories/笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">笔记</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/笔记/PHP/" itemprop="url" rel="index">
+                    <span itemprop="name">PHP</span>
                   </a>
                 </span>
 
@@ -332,8 +349,8 @@
             
               <span class="post-comments-count">
                 <span class="post-meta-divider">|</span>
-                <a href="/2016/12/20/kidding/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/20/kidding/" itemprop="commentCount"></span>
+                <a href="/2017/02/08/session-start-and-destroy/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/08/session-start-and-destroy/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -343,7 +360,7 @@
 
           
           
-             <span id="/2016/12/20/kidding/" class="leancloud_visitors" data-flag-title="我不会织毛衣">
+             <span id="/2017/02/08/session-start-and-destroy/" class="leancloud_visitors" data-flag-title="session的开启与关闭">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -368,10 +385,12 @@
       
 
       
-        <p><br></p>
-<center>我深深的爱着你😚</center><br><center>你却爱着一个傻逼😞</center><br><center>傻逼也没关系😉</center><br><center>我就是 那个傻逼😎</center><br><center>啦啦啦啦啦啦啦</center><br><center>…</center>
-
-
+        <h3 id="session-start"><a href="#session-start" class="headerlink" title="session start"></a>session start</h3><p>手工开启之前需先判断是否已经启动, 两种判断:</p>
+<h5 id="PHP版本-lt-5-4-0"><a href="#PHP版本-lt-5-4-0" class="headerlink" title="PHP版本 &lt; 5.4.0"></a>PHP版本 &lt; 5.4.0</h5><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">    <span class="comment">// 通过session_id亦可适用于高版本</span></div><div class="line">    <span class="keyword">if</span> (session_id() == <span class="string">''</span>) &#123; </div><div class="line">        session_start(); </div><div class="line">    &#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<h5 id="PHP版本-gt-5-4-0"><a href="#PHP版本-gt-5-4-0" class="headerlink" title="PHP版本 &gt;= 5.4.0"></a>PHP版本 &gt;= 5.4.0</h5><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">    <span class="comment">// session_status最低只支持5.4.0的PHP版本</span></div><div class="line">    <span class="keyword">if</span> (session_status() == PHP_SESSION_NONE) &#123; </div><div class="line">        session_start(); </div><div class="line">    &#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>即:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">    <span class="comment">// 检测session是否开启</span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">hasSessionStarted</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (version_compare(phpversion(), <span class="string">'5.4.0'</span>, <span class="string">'&lt;'</span>)) &#123;</div><div class="line">            $session_id = session_id();</div><div class="line">            <span class="keyword">return</span> !<span class="keyword">empty</span>($session_id);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">return</span> session_status() != PHP_SESSION_NONE;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<h3 id="session-destrory-完整的logout姿势"><a href="#session-destrory-完整的logout姿势" class="headerlink" title="session destrory(完整的logout姿势)"></a>session destrory(完整的logout姿势)</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">    <span class="comment">// 重置会话中的所有变量</span></div><div class="line">    $_SESSION = <span class="keyword">array</span>();</div><div class="line">    </div><div class="line">    <span class="comment">// 如果要清理的更彻底，那么同时删除会话 cookie</span></div><div class="line">    <span class="comment">// 注意：这样不但销毁了会话中的数据，还同时销毁了会话本身</span></div><div class="line">    <span class="keyword">if</span> (ini_get(<span class="string">"session.use_cookies"</span>)) &#123;</div><div class="line">        $params = session_get_cookie_params();</div><div class="line">        setcookie(session_name(), <span class="string">''</span>, time() - <span class="number">42000</span>,</div><div class="line">            $params[<span class="string">"path"</span>], $params[<span class="string">"domain"</span>],</div><div class="line">            $params[<span class="string">"secure"</span>], $params[<span class="string">"httponly"</span>]</div><div class="line">        );</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">// 最后，销毁会话</span></div><div class="line">    session_destroy();</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
 
       
     </div>
@@ -393,13 +412,19 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/session/" rel="tag"># session</a>
+          
+        </div>
+      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/12/19/vim-command/" rel="next" title="vim常用命令">
-                <i class="fa fa-chevron-left"></i> vim常用命令
+              <a href="/2017/01/17/the-victory-of-mediocre-persons/" rel="next" title="许知远：庸众的胜利">
+                <i class="fa fa-chevron-left"></i> 许知远：庸众的胜利
               </a>
             
           </div>
@@ -407,10 +432,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/12/22/symfony-easyadmin-begin/" rel="prev" title="Symfony EasyAdminBundle初体验">
-                Symfony EasyAdminBundle初体验 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -436,8 +457,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/12/20/kidding/"
-           data-title="我不会织毛衣" data-url="https://www.mkidding.com/2016/12/20/kidding/">
+      <div class="ds-thread" data-thread-key="2017/02/08/session-start-and-destroy/"
+           data-title="session的开启与关闭" data-url="https://www.mkidding.com/2017/02/08/session-start-and-destroy/">
       </div>
     
   </div>
@@ -461,8 +482,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="http://ogslmd0ql.bkt.clouddn.com/oUkcKj6KyFo9sOkbc4QkIQIKh688_583916a5371c5"
@@ -515,6 +545,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#session-start"><span class="nav-number">1.</span> <span class="nav-text">session start</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#PHP版本-lt-5-4-0"><span class="nav-number">1.0.1.</span> <span class="nav-text">PHP版本 < 5.4.0</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#PHP版本-gt-5-4-0"><span class="nav-number">1.0.2.</span> <span class="nav-text">PHP版本 >= 5.4.0</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#session-destrory-完整的logout姿势"><span class="nav-number">2.</span> <span class="nav-text">session destrory(完整的logout姿势)</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>
