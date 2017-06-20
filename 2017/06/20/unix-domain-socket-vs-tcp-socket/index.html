@@ -88,15 +88,15 @@
 Unix Domain Socket
 Unix domain socket 或者 IPC socket是一种终端，可以使 同一台操作系统 上的">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Unix Domain Socket VS TCP SOCKET">
+<meta property="og:title" content="Unix Domain Socket vs TCP SOCKET">
 <meta property="og:url" content="https://www.mkidding.com/2017/06/20/unix-domain-socket-vs-tcp-socket/index.html">
 <meta property="og:site_name" content="Just kidding">
 <meta property="og:description" content="之前配置lnmp环境时有发现php-fpm既可以监听127.0.0.1:9000(ip+端口形式), 也可以监听/path/to/unix/socket(Unix Domain Socket形式), 用起来感觉并没有什么差异, 网上查下了资料，大略总结下。
 Unix Domain Socket
 Unix domain socket 或者 IPC socket是一种终端，可以使 同一台操作系统 上的">
-<meta property="og:updated_time" content="2017-06-20T09:10:01.000Z">
+<meta property="og:updated_time" content="2017-06-20T09:18:46.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Unix Domain Socket VS TCP SOCKET">
+<meta name="twitter:title" content="Unix Domain Socket vs TCP SOCKET">
 <meta name="twitter:description" content="之前配置lnmp环境时有发现php-fpm既可以监听127.0.0.1:9000(ip+端口形式), 也可以监听/path/to/unix/socket(Unix Domain Socket形式), 用起来感觉并没有什么差异, 网上查下了资料，大略总结下。
 Unix Domain Socket
 Unix domain socket 或者 IPC socket是一种终端，可以使 同一台操作系统 上的">
@@ -137,7 +137,7 @@ Unix domain socket 或者 IPC socket是一种终端，可以使 同一台操作�
 </script>
 
 
-  <title> Unix Domain Socket VS TCP SOCKET | Just kidding </title>
+  <title> Unix Domain Socket vs TCP SOCKET | Just kidding </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -292,7 +292,7 @@ Unix domain socket 或者 IPC socket是一种终端，可以使 同一台操作�
             
             
               
-                Unix Domain Socket VS TCP SOCKET
+                Unix Domain Socket vs TCP SOCKET
               
             
           </h1>
@@ -350,7 +350,7 @@ Unix domain socket 或者 IPC socket是一种终端，可以使 同一台操作�
 
           
           
-             <span id="/2017/06/20/unix-domain-socket-vs-tcp-socket/" class="leancloud_visitors" data-flag-title="Unix Domain Socket VS TCP SOCKET">
+             <span id="/2017/06/20/unix-domain-socket-vs-tcp-socket/" class="leancloud_visitors" data-flag-title="Unix Domain Socket vs TCP SOCKET">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -396,6 +396,10 @@ Unix domain socket 或者 IPC socket是一种终端，可以使 同一台操作�
 <li>php只有一台服务器且与Nginx在同一台机，建议使用Unix Domain Socket方式，性能会略高于TCP/IP，不过基本看不出来差异</li>
 <li>其他情况就只能监听ip+端口号, 没得选 :)</li>
 </ul>
+<p><br><br><br>参考资料：</p>
+<blockquote>
+<p><a href="https://lists.freebsd.org/pipermail/freebsd-performance/2005-February/001143.html" target="_blank" rel="external">unix domain sockets vs. internet sockets</a></p>
+</blockquote>
 
       
     </div>
@@ -467,7 +471,7 @@ Unix domain socket 或者 IPC socket是一种终端，可以使 同一台操作�
   <div class="comments" id="comments">
     
       <div class="ds-thread" data-thread-key="2017/06/20/unix-domain-socket-vs-tcp-socket/"
-           data-title="Unix Domain Socket VS TCP SOCKET" data-url="https://www.mkidding.com/2017/06/20/unix-domain-socket-vs-tcp-socket/">
+           data-title="Unix Domain Socket vs TCP SOCKET" data-url="https://www.mkidding.com/2017/06/20/unix-domain-socket-vs-tcp-socket/">
       </div>
     
   </div>
