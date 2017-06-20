@@ -94,7 +94,7 @@ Unix domain socket 或者 IPC socket是一种终端，可以使 同一台操作�
 <meta property="og:description" content="之前配置lnmp环境时有发现php-fpm既可以监听127.0.0.1:9000(ip+端口形式), 也可以监听/path/to/unix/socket(Unix Domain Socket形式), 用起来感觉并没有什么差异, 网上查下了资料，大略总结下。
 Unix Domain Socket
 Unix domain socket 或者 IPC socket是一种终端，可以使 同一台操作系统 上的">
-<meta property="og:updated_time" content="2017-06-20T09:18:46.000Z">
+<meta property="og:updated_time" content="2017-06-20T09:29:15.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Unix Domain Socket vs TCP SOCKET">
 <meta name="twitter:description" content="之前配置lnmp环境时有发现php-fpm既可以监听127.0.0.1:9000(ip+端口形式), 也可以监听/path/to/unix/socket(Unix Domain Socket形式), 用起来感觉并没有什么差异, 网上查下了资料，大略总结下。
@@ -385,9 +385,8 @@ Unix domain socket 或者 IPC socket是一种终端，可以使 同一台操作�
 </ul>
 <h3 id="系统文件标识身份"><a href="#系统文件标识身份" class="headerlink" title="系统文件标识身份"></a>系统文件标识身份</h3><ul>
 <li>方便利用linux的文件访问权限机制，来控制进程的访问权限。如Nginx运行用户为www, 则该socket文件必须对www用户有读写的权限，而其他没有读写权限的进程无法与php-fpm进程通信。</li>
-<li><em>less copying of data, fewer context switches</em>。相比基于TCP/IP协议栈的形式，UDS减少了如数据安全校验、路由、流量控制、封包解包等操作的性能消耗，在性能表现方面略高，不过这方面的性能优势只是理论上的，实际线上环境的差异应该不大。</li>
-</ul>
-<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><em>less copying of data, fewer context switches</em>。相比基于TCP/IP协议栈的形式，UDS减少了如数据安全校验、路由、流量控制、封包解包等操作的性能消耗，在性能表现方面略高，不过这方面的性能优势只是理论上的，实际线上环境的差异应该不大。<a id="more"></a>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3></li>
 <li>网上看到一个很脑洞的UDS使用<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">upstream backend </div><div class="line">&#123;</div><div class="line">    server unix:/var/run/php5-fpm.sock1  weight=100 max_fails=5 fail_timeout=5;</div><div class="line">    server unix:/var/run/php5-fpm.sock2  weight=100 max_fails=5 fail_timeout=5;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 </li>
 </ul>
