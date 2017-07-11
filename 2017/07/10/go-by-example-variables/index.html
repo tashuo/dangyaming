@@ -90,7 +90,7 @@
 <meta property="og:url" content="https://www.mkidding.com/2017/07/10/go-by-example-variables/index.html">
 <meta property="og:site_name" content="ta_shuo">
 <meta property="og:description" content="翻译自 https://gobyexample.com/  Go by Example Go is an open source programming language designed for building simple, fast, and reliable software. Go by Example is a hands-on introduction to Go using an">
-<meta property="og:updated_time" content="2017-07-11T01:46:12.000Z">
+<meta property="og:updated_time" content="2017-07-11T02:25:47.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Go by Example - Variables">
 <meta name="twitter:description" content="翻译自 https://gobyexample.com/  Go by Example Go is an open source programming language designed for building simple, fast, and reliable software. Go by Example is a hands-on introduction to Go using an">
@@ -386,9 +386,9 @@
 <p>Go is an open source programming language designed for building simple, fast, and reliable software.</p>
 <p>Go by Example is a hands-on introduction to Go using annotated example programs. Check out the first example or browse the full list below.</p>
 </blockquote>
-<h2 id="Go-by-Example-Variables"><a href="#Go-by-Example-Variables" class="headerlink" title="Go by Example: Variables"></a><center>Go by Example: Variables</center></h2><figure class="highlight golang"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> fmt</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="comment">// 使用var关键字声明一个变量并赋值，变量名在前，类型在后</span></div><div class="line">    <span class="keyword">var</span> a <span class="keyword">string</span> = <span class="string">"initial"</span></div><div class="line">    fmt.Println(a)</div><div class="line"></div><div class="line">    <span class="comment">// 可以一次性初始化多个变量并赋值</span></div><div class="line">    <span class="keyword">var</span> b,c <span class="keyword">int</span> = <span class="number">1</span>, <span class="number">2</span></div><div class="line">    fmt.Println(b, c)</div><div class="line"></div><div class="line">    <span class="comment">// golang会自动推断出未显式声明类型的变量</span></div><div class="line">    <span class="keyword">var</span> d = <span class="literal">true</span></div><div class="line">    fmt.Println(d)</div><div class="line"></div><div class="line">    <span class="comment">// 初始化未赋值的变量，golang默认会赋值其相应类型的零值</span></div><div class="line">    <span class="keyword">var</span> e <span class="keyword">int</span></div><div class="line">    fmt.Println(e)</div><div class="line"></div><div class="line">    <span class="comment">// 也可以使用':='操作符</span></div><div class="line">    f := <span class="string">"short"</span></div><div class="line">    fmt.Println(f)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Go-by-Example-Variables"><a href="#Go-by-Example-Variables" class="headerlink" title="Go by Example: Variables"></a><center>Go by Example: Variables</center></h2><p>golang中的变量被显式声明，编译时会做类型检查。</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> fmt</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="comment">// 使用var关键字声明一个变量并赋值，变量名在前，类型在后</span></div><div class="line">    <span class="keyword">var</span> a <span class="keyword">string</span> = <span class="string">"initial"</span></div><div class="line">    fmt.Println(a)</div><div class="line"></div><div class="line">    <span class="comment">// 可以一次性初始化多个变量并赋值</span></div><div class="line">    <span class="keyword">var</span> b,c <span class="keyword">int</span> = <span class="number">1</span>, <span class="number">2</span></div><div class="line">    fmt.Println(b, c)</div><div class="line"></div><div class="line">    <span class="comment">// golang会自动推断出未显式声明类型的变量</span></div><div class="line">    <span class="keyword">var</span> d = <span class="literal">true</span></div><div class="line">    fmt.Println(d)</div><div class="line"></div><div class="line">    <span class="comment">// 初始化未赋值的变量，golang默认会赋值其相应类型的零值</span></div><div class="line">    <span class="keyword">var</span> e <span class="keyword">int</span></div><div class="line">    fmt.Println(e)</div><div class="line"></div><div class="line">    <span class="comment">// 也可以使用':='操作符</span></div><div class="line">    f := <span class="string">"short"</span></div><div class="line">    fmt.Println(f)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ go run variables.go</div><div class="line">initial</div><div class="line">1 2</div><div class="line"><span class="literal">true</span></div><div class="line">0</div><div class="line">short</div></pre></td></tr></table></figure>
-<p>golang中的变量被显式声明，编译时会做类型检查。</p>
 <p>原文链接：<a href="https://gobyexample.com/variables" target="_blank" rel="external">Go by Example: Variables</a></p>
 
       
@@ -425,6 +425,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/11/go-by-example-constants/" rel="prev" title="Go by Example - Constants">
+                Go by Example - Constants <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -499,7 +503,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">17</span>
+              <span class="site-state-item-count">21</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
