@@ -263,6 +263,344 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://www.mkidding.com/2016/12/22/symfony-easyadmin-begin/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ta_shuo">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ogslmd0ql.bkt.clouddn.com/oUkcKj6KyFo9sOkbc4QkIQIKh688_583916a5371c5">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ta_shuo">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ta_shuo" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/12/22/symfony-easyadmin-begin/" itemprop="url">
+                  Symfony EasyAdminBundle初体验
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-22T12:01:13+08:00">
+                2016-12-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/symfony/" itemprop="url" rel="index">
+                    <span itemprop="name">symfony</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/symfony/笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/2016/12/22/symfony-easyadmin-begin/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/12/22/symfony-easyadmin-begin/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/12/22/symfony-easyadmin-begin/" class="leancloud_visitors" data-flag-title="Symfony EasyAdminBundle初体验">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="安装symfony"><a href="#安装symfony" class="headerlink" title="安装symfony"></a>安装<a href="http://symfony.com/doc/current/setup.html" target="_blank" rel="external">symfony</a></h2><h3 id="Linux-OSX"><a href="#Linux-OSX" class="headerlink" title="Linux/OSX"></a>Linux/OSX</h3><ul>
+<li><code>$ sudo curl -LsS https://symfony.com/installer -o /usr/local/bin/symfony</code></li>
+<li><code>$ sudo chmod a+x /usr/local/bin/symfony</code></li>
+</ul>
+<h3 id="OSX"><a href="#OSX" class="headerlink" title="OSX"></a>OSX</h3><ul>
+<li><code>$ brew install homebrew/php/symfony-installer</code></li>
+</ul>
+<h2 id="新建symfony项目"><a href="#新建symfony项目" class="headerlink" title="新建symfony项目"></a>新建symfony项目</h2><p><code>$ symfony new my_project_name [version]</code>  </p>
+<p>symfony 3.0 开始需PHP版本不低于5.5.9, 2.x版本支持PHP 5.3.x版本, 需要根据自己的PHP版本来确定symfony项目的版本, version参数不加默认是master分支, 具体可查 <a href="https://github.com/symfony/symfony/blob/master/composer.json" target="_blank" rel="external">symfony的composer.json文件</a> </p>
+<p>也可用composer方式新建项目: <code>composer create-project symfony/framework-standard-edition my_project_name &quot;[version]&quot;</code>  </p>
+<p>测试项目是否初始化成功</p>
+<ul>
+<li>进入到 <code>my_project_name</code> 文件夹  </li>
+<li>启动php内置web服务 <code>php bin/console server:run</code></li>
+<li>访问 <code>http://localhost:8000</code> 即可看到symfony欢迎页面</li>
+</ul>
+<p><strong>注: symfony 3.0之前的版本console文件路径是 app/console, 之后的是 bin/console, 下文默认使用3.0后的版本, 如果你的环境是2.x版本则需改为 app/console</strong></p>
+<h2 id="初始化数据库"><a href="#初始化数据库" class="headerlink" title="初始化数据库"></a>初始化数据库</h2><p><strong>注: 若数据库已存在则不需要这个过程, 只需将配置文件中 database_name 字段修改为所用数据库名称</strong></p>
+<h3 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h3><p>编辑 app/config/parameters.yml, 修改 <code>database_</code> 相关字段的配置<br>
+          <!--noindex-->
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/12/22/symfony-easyadmin-begin/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://www.mkidding.com/2016/12/20/kidding/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ta_shuo">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ogslmd0ql.bkt.clouddn.com/oUkcKj6KyFo9sOkbc4QkIQIKh688_583916a5371c5">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ta_shuo">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ta_shuo" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/12/20/kidding/" itemprop="url">
+                  我不会织毛衣
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-20T23:57:42+08:00">
+                2016-12-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/life/" itemprop="url" rel="index">
+                    <span itemprop="name">生活</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/2016/12/20/kidding/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/12/20/kidding/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/12/20/kidding/" class="leancloud_visitors" data-flag-title="我不会织毛衣">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><br></p>
+<center>我深深的爱着你😚</center><br><center>你却爱着一个傻逼😞</center><br><center>傻逼也没关系😉</center><br><center>我就是 那个傻逼😎</center><br><center>啦啦啦啦啦啦啦</center><br><center>…</center>
+
+
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="https://www.mkidding.com/2016/12/19/vim-command/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -910,7 +1248,7 @@
           <p>场景：MySQL出现“too many connections”错误  </p>
 <p>MySQL默认会额外保留一条供root用户建立的连接，以确保root用户可随时登录查看并检测服务器状态，当出现上述场景时，我们就可通过<code>show [full] processlist</code>命令查看当前所有进程状态，通过kill掉某些慢sql及分析产生原因来优化sql代码. 操作如下.</p>
 <h3 id="查看mysql所有执行状态"><a href="#查看mysql所有执行状态" class="headerlink" title="查看mysql所有执行状态"></a>查看mysql所有执行状态</h3><p><code>mysql&gt; show full processlist</code>  </p>
-<p>如果MySQL登录用户有<a href="http://dev.mysql.com/doc/refman/5.7/en/privileges-provided.html#priv_process">PROCESS权限</a>，列表会输出所有进程信息，否则只有当前登录用户所属的进程，若不加full关键字，Info字段信息会只截取前100个字符显示.  </p>
+<p>如果MySQL登录用户有<a href="http://dev.mysql.com/doc/refman/5.7/en/privileges-provided.html#priv_process" target="_blank" rel="external">PROCESS权限</a>，列表会输出所有进程信息，否则只有当前登录用户所属的进程，若不加full关键字，Info字段信息会只截取前100个字符显示.  </p>
 <p>列表字段说明：</p>
 <h4 id="id"><a href="#id" class="headerlink" title="id"></a>id</h4><p>MySQL连接的id标示</p>
 <h4 id="User"><a href="#User" class="headerlink" title="User"></a>User</h4><p>建立此次连接的MySQL user</p>
@@ -918,7 +1256,7 @@
 <h4 id="db"><a href="#db" class="headerlink" title="db"></a>db</h4><p>操作的数据库，可能为null</p>
 <h4 id="Command"><a href="#Command" class="headerlink" title="Command"></a>Command</h4><p>当前sql语句的类型，一般为休眠（sleep），查询（query），连接（connect）</p>
 <h4 id="Time"><a href="#Time" class="headerlink" title="Time"></a>Time</h4><p>当前进程在当前状态停留的时间，单位秒</p>
-<h4 id="State"><a href="#State" class="headerlink" title="State"></a>State</h4><p>当前进程的<a href="http://dev.mysql.com/doc/refman/5.7/en/general-thread-states.html">执行状态</a>，大部分的状态切换很快，<strong>如果发现某个进程在某个状态阻塞很久说明sql执行可能有问题</strong></p>
+<h4 id="State"><a href="#State" class="headerlink" title="State"></a>State</h4><p>当前进程的<a href="http://dev.mysql.com/doc/refman/5.7/en/general-thread-states.html" target="_blank" rel="external">执行状态</a>，大部分的状态切换很快，<strong>如果发现某个进程在某个状态阻塞很久说明sql执行可能有问题</strong></p>
 <h4 id="Info"><a href="#Info" class="headerlink" title="Info"></a>Info</h4><p>进程详情信息，如select查询进程此处会是select语句<br>
           <!--noindex-->
           <div class="post-more-link text-center">
@@ -1152,7 +1490,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-count">17</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1160,7 +1498,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
