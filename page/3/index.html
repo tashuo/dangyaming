@@ -263,6 +263,685 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://www.mkidding.com/2017/02/08/session-start-and-destroy/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ta_shuo">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ogslmd0ql.bkt.clouddn.com/oUkcKj6KyFo9sOkbc4QkIQIKh688_583916a5371c5">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ta_shuo">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ta_shuo" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/08/session-start-and-destroy/" itemprop="url">
+                  session的开启与关闭
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-08T16:52:50+08:00">
+                2017-02-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">笔记</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/笔记/PHP/" itemprop="url" rel="index">
+                    <span itemprop="name">PHP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/2017/02/08/session-start-and-destroy/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/02/08/session-start-and-destroy/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/02/08/session-start-and-destroy/" class="leancloud_visitors" data-flag-title="session的开启与关闭">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="session-start"><a href="#session-start" class="headerlink" title="session start"></a>session start</h3><p>手工开启之前需先判断是否已经启动, 两种判断:</p>
+<h5 id="PHP版本-lt-5-4-0"><a href="#PHP版本-lt-5-4-0" class="headerlink" title="PHP版本 &lt; 5.4.0"></a>PHP版本 &lt; 5.4.0</h5><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">    <span class="comment">// 通过session_id亦可适用于高版本</span></div><div class="line">    <span class="keyword">if</span> (session_id() == <span class="string">''</span>) &#123; </div><div class="line">        session_start(); </div><div class="line">    &#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<h5 id="PHP版本-gt-5-4-0"><a href="#PHP版本-gt-5-4-0" class="headerlink" title="PHP版本 &gt;= 5.4.0"></a>PHP版本 &gt;= 5.4.0</h5><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">    <span class="comment">// session_status最低只支持5.4.0的PHP版本</span></div><div class="line">    <span class="keyword">if</span> (session_status() == PHP_SESSION_NONE) &#123; </div><div class="line">        session_start(); </div><div class="line">    &#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>即:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">    <span class="comment">// 检测session是否开启</span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">hasSessionStarted</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (version_compare(phpversion(), <span class="string">'5.4.0'</span>, <span class="string">'&lt;'</span>)) &#123;</div><div class="line">            $session_id = session_id();</div><div class="line">            <span class="keyword">return</span> !<span class="keyword">empty</span>($session_id);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">return</span> session_status() != PHP_SESSION_NONE;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+          <!--noindex-->
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/02/08/session-start-and-destroy/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://www.mkidding.com/2017/01/17/the-victory-of-mediocre-persons/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ta_shuo">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ogslmd0ql.bkt.clouddn.com/oUkcKj6KyFo9sOkbc4QkIQIKh688_583916a5371c5">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ta_shuo">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ta_shuo" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/17/the-victory-of-mediocre-persons/" itemprop="url">
+                  许知远：庸众的胜利
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-17T22:55:39+08:00">
+                2017-01-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/社会/" itemprop="url" rel="index">
+                    <span itemprop="name">社会</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/2017/01/17/the-victory-of-mediocre-persons/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/01/17/the-victory-of-mediocre-persons/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/01/17/the-victory-of-mediocre-persons/" class="leancloud_visitors" data-flag-title="许知远：庸众的胜利">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <blockquote>
+<p>文: 许知远<br>来源: 凤凰网<br>链接: <a href="http://book.ifeng.com/culture/1/detail_2010_05/11/1504069_0.shtml" target="_blank" rel="external">http://book.ifeng.com/culture/1/detail_2010_05/11/1504069_0.shtml</a> </p>
+</blockquote>
+<p>大约三十年前，当法国学生们被问道，谁是他们最仰慕的公众人物时，他们选择的不是老年萨特，而是米歇尔.科卢奇——一位电视喜剧演员，以嘲讽和出言不逊著称。</p>
+<p>时代的风尚转变了，六十年代的理想主义、改变世界的愿望，让位于七十年代的幻灭与狭隘的个人主义。嘲讽成了时代的情绪，人们在乎的是姿态，而不是内容。</p>
+<p>此刻的中国，人人都在谈论韩寒。他像是越来越压抑、越来越迷惘的时代的最后救命稻草。上了年纪的知识分子说他头脑清醒，媒体欢呼他是“青年领袖”、“年度人物”，青年人觉得他不仅很酷，还有思想。</p>
+<p>没人能否认韩寒的魅力。他能把赛车冠军、畅销书作家、叛逆小子和即兴讽刺者等多重的角色结合，并能在种种诱惑面前保持警惕，况且他才二十七岁。人们尤其着迷于最后一点，他在自己全球浏览量第一的博客上，嘲讽这社会中的种种愚蠢和不公——它们绝大多数与这个越来越膨胀和傲慢的官僚系统相关。有些时候，他不仅嘲讽，还期待创造意义，尽管他还不清楚这意义到底是什么。</p>
+<p>作为一个青年人，这似乎已经足了，他必定是我们时代最可爱、最聪明的明星人物。但很多人(包括一些自认有思想的人)把他推到了一个令他本人都尴尬的位置——他要成为这个时代的英雄，象征着思想的力量，象征着对权力的反抗。</p>
+<p>但这不是韩寒，人们越是把他推向这个位置，越暴露出这个时代、这些高声吶喊者的愚蠢、脆弱与怯懦。在某种意义上，韩寒的胜利不是他个人的胜利，而是这个正在兴起的庸众时代的胜利。</p>
+<p>是的，你可以说每个杰出人物必然与他身处的时代相关联，但一种越来越明显的趋势是——名声和有影响力越来越与个人的质量、才能与成就无关。在西方，这是个Paris Hilton和苏珊大妈的年代——她因为有名而有名，因为不怕出丑而有名。在中国，这是个李宇春与小沈阳的年代——人们因她小小的个性，或是他的自我贬损，而把票投给他们。</p>
+<p>韩寒与他们不同，却也是被同样一种力量推到今天的舞台。他是这个时代明星文化与成功文化的产物，也符合这个时代所推崇的业余精神——赛车、写作、表演，你都要会一点；他还下意识响应了日趋悤烈的反智倾向，他的文章总是如此浅显直白，没有任何阅读障碍，也不会提到任何你不知道的知识；还有他嘲讽式的挑衅姿态，显得如此机智，他还熟知挑战的分寸，绝不真正越政治雷池一步；他也从来不暴露自己内心的焦灼与困惑，很酷……</p>
+          <!--noindex-->
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/01/17/the-victory-of-mediocre-persons/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://www.mkidding.com/2017/01/04/no-longer-human-1/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ta_shuo">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ogslmd0ql.bkt.clouddn.com/oUkcKj6KyFo9sOkbc4QkIQIKh688_583916a5371c5">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ta_shuo">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ta_shuo" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/04/no-longer-human-1/" itemprop="url">
+                  《人间失格》 - 第一手扎
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-04T23:15:05+08:00">
+                2017-01-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/文学/" itemprop="url" rel="index">
+                    <span itemprop="name">文学</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/2017/01/04/no-longer-human-1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/01/04/no-longer-human-1/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/01/04/no-longer-human-1/" class="leancloud_visitors" data-flag-title="《人间失格》 - 第一手扎">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>我这一生，尽是可耻之事</p>
+<p>我总是无法理清人类生活的头绪。我从小在东北的乡间长大，初次见到火车，是年纪稍大后的事了。我在火车站的天桥上爬上爬下，满以为它是为了把车站建的像外国的游乐场一般复杂有趣，而特地打造的新潮设施。很长一段时间里，我对此深信不疑。在天桥上爬来爬去，曾是我最拿手的游戏。我原以为，那是铁路局最为贴心的服务之一。后来我发现，天桥不过是供乘客跨越铁路而设，只是一段实用性的阶梯，于是顿感索然无味。</p>
+<p>此外，幼年的我在绘本中见到地铁，也不以为它是为实际需求而建，竟自认为比起地面上的车，地底下的车别出心裁、乐趣非凡，这应是地铁出现的缘由。</p>
+<p>我自幼体弱多病，长期卧床在家。躺在床上，我笃定的认为这些床单、枕头套、被套都是单调乏味的装饰品。将满二十岁时，才得知这些竟也都是实用品。我颇感意外，对于人活于世的简朴，不禁悲从中来。</p>
+<p>还有，我不懂得饥肠辘辘的滋味。不，我并非要傻乎乎的说明自己成长在不愁衣食的大户人家，只是我的确不曾体会饥饿之感。这样说来或许奇怪，我是那种即使饿了，也无法自察的人。中小学时，每当放学回家，周遭的人们总会七嘴八舌地吵着：“肚子饿了吧？我们都是过来人，放学回家的时候肚子总会饿的够戗。来电甜纳豆如何？还有蛋糕和面包哦。” 我也总会发挥自己与生俱来的讨好人的精神，嘴上说着“我饿了”，顺手把十颗甜纳豆扔进嘴里。但其实，那时的我对于饥饿一无所知。</p>
+<p>当然我的食量并不小，记忆中却几乎不曾因饥饿而进食。我吃人们眼中的山珍海味，也吃众人艳羡的奢华之食。外出用餐时，总会勉强自己吃到撑。年幼之时，于我而言，最痛苦的时刻，莫过于在自家用餐的时候。</p>
+<p>在乡下家中，每逢用餐，全家十余人的餐盘都分成相对的两列排开。身为幺子的我，自然坐在末座。用餐的房间光线暗淡，午饭时，十几位家人默默坐在桌前扒饭，这光景总是让我不寒而栗。我家是传统守旧的乡下家庭，菜色大都墨守成规，我渐渐对山珍海味或奢华之食不再抱有期待，最终竟觉得吃饭的时刻是可怖的。我坐在那幽暗房间的餐桌末端，因恐惧而寒战连连，把饭食一点点强压进口中，闷想着：“人为何一天非吃三餐不可？” 每个人吃饭时都表情严肃，用餐俨然如某种仪式：一家人必须得每日三次，准时聚集到一间幽暗的屋中。餐盘的顺序要摆放正确，即使并不饿，也必须沉默着低头咀嚼饭食。以至于我曾以为，这是在向家中蠢蠢欲动的亡灵们祈祷。<br>
+          <!--noindex-->
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/01/04/no-longer-human-1/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://www.mkidding.com/2016/12/22/symfony-easyadmin-begin/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ta_shuo">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ogslmd0ql.bkt.clouddn.com/oUkcKj6KyFo9sOkbc4QkIQIKh688_583916a5371c5">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ta_shuo">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ta_shuo" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/12/22/symfony-easyadmin-begin/" itemprop="url">
+                  Symfony EasyAdminBundle初体验
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-22T12:01:13+08:00">
+                2016-12-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/symfony/" itemprop="url" rel="index">
+                    <span itemprop="name">symfony</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/symfony/笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/2016/12/22/symfony-easyadmin-begin/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/12/22/symfony-easyadmin-begin/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/12/22/symfony-easyadmin-begin/" class="leancloud_visitors" data-flag-title="Symfony EasyAdminBundle初体验">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="安装symfony"><a href="#安装symfony" class="headerlink" title="安装symfony"></a>安装<a href="http://symfony.com/doc/current/setup.html" target="_blank" rel="external">symfony</a></h2><h3 id="Linux-OSX"><a href="#Linux-OSX" class="headerlink" title="Linux/OSX"></a>Linux/OSX</h3><ul>
+<li><code>$ sudo curl -LsS https://symfony.com/installer -o /usr/local/bin/symfony</code></li>
+<li><code>$ sudo chmod a+x /usr/local/bin/symfony</code></li>
+</ul>
+<h3 id="OSX"><a href="#OSX" class="headerlink" title="OSX"></a>OSX</h3><ul>
+<li><code>$ brew install homebrew/php/symfony-installer</code></li>
+</ul>
+<h2 id="新建symfony项目"><a href="#新建symfony项目" class="headerlink" title="新建symfony项目"></a>新建symfony项目</h2><p><code>$ symfony new my_project_name [version]</code>  </p>
+<p>symfony 3.0 开始需PHP版本不低于5.5.9, 2.x版本支持PHP 5.3.x版本, 需要根据自己的PHP版本来确定symfony项目的版本, version参数不加默认是master分支, 具体可查 <a href="https://github.com/symfony/symfony/blob/master/composer.json" target="_blank" rel="external">symfony的composer.json文件</a> </p>
+<p>也可用composer方式新建项目: <code>composer create-project symfony/framework-standard-edition my_project_name &quot;[version]&quot;</code>  </p>
+<p>测试项目是否初始化成功</p>
+<ul>
+<li>进入到 <code>my_project_name</code> 文件夹  </li>
+<li>启动php内置web服务 <code>php bin/console server:run</code></li>
+<li>访问 <code>http://localhost:8000</code> 即可看到symfony欢迎页面</li>
+</ul>
+<p><strong>注: symfony 3.0之前的版本console文件路径是 app/console, 之后的是 bin/console, 下文默认使用3.0后的版本, 如果你的环境是2.x版本则需改为 app/console</strong></p>
+<h2 id="初始化数据库"><a href="#初始化数据库" class="headerlink" title="初始化数据库"></a>初始化数据库</h2><p><strong>注: 若数据库已存在则不需要这个过程, 只需将配置文件中 database_name 字段修改为所用数据库名称</strong></p>
+<h3 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h3><p>编辑 app/config/parameters.yml, 修改 <code>database_</code> 相关字段的配置<br>
+          <!--noindex-->
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/12/22/symfony-easyadmin-begin/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="https://www.mkidding.com/2016/12/20/kidding/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1306,7 +1985,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-count">30</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
