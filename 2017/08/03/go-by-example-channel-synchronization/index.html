@@ -86,13 +86,13 @@
 
 <meta name="description" content="翻译自 https://gobyexample.com/  Go by Example Go is an open source programming language designed for building simple, fast, and reliable software. Go by Example is a hands-on introduction to Go using an">
 <meta property="og:type" content="article">
-<meta property="og:title" content="go_by_example_channel_synchronization">
+<meta property="og:title" content="Go by Example - Channel Synchronization">
 <meta property="og:url" content="https://www.mkidding.com/2017/08/03/go-by-example-channel-synchronization/index.html">
 <meta property="og:site_name" content="ta_shuo">
 <meta property="og:description" content="翻译自 https://gobyexample.com/  Go by Example Go is an open source programming language designed for building simple, fast, and reliable software. Go by Example is a hands-on introduction to Go using an">
-<meta property="og:updated_time" content="2017-08-03T09:30:33.000Z">
+<meta property="og:updated_time" content="2017-08-03T09:34:25.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="go_by_example_channel_synchronization">
+<meta name="twitter:title" content="Go by Example - Channel Synchronization">
 <meta name="twitter:description" content="翻译自 https://gobyexample.com/  Go by Example Go is an open source programming language designed for building simple, fast, and reliable software. Go by Example is a hands-on introduction to Go using an">
 
 
@@ -131,7 +131,7 @@
 </script>
 
 
-  <title> go_by_example_channel_synchronization | ta_shuo </title>
+  <title> Go by Example - Channel Synchronization | ta_shuo </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -286,7 +286,7 @@
             
             
               
-                go_by_example_channel_synchronization
+                Go by Example - Channel Synchronization
               
             
           </h1>
@@ -355,7 +355,7 @@
 
           
           
-             <span id="/2017/08/03/go-by-example-channel-synchronization/" class="leancloud_visitors" data-flag-title="go_by_example_channel_synchronization">
+             <span id="/2017/08/03/go-by-example-channel-synchronization/" class="leancloud_visitors" data-flag-title="Go by Example - Channel Synchronization">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -386,7 +386,7 @@
 <p>Go is an open source programming language designed for building simple, fast, and reliable software.</p>
 <p>Go by Example is a hands-on introduction to Go using annotated example programs. Check out the first example or browse the full list below.</p>
 </blockquote>
-<h2 id="Go-by-Example-Channels"><a href="#Go-by-Example-Channels" class="headerlink" title="Go by Example: Channels"></a><center>Go by Example: Channels</center></h2><p>我们可以使用channel来同步不同goroutine的执行。</p>
+<h2 id="Go-by-Example-Channel-Synchronization"><a href="#Go-by-Example-Channel-Synchronization" class="headerlink" title="Go by Example: Channel Synchronization"></a><center>Go by Example: Channel Synchronization</center></h2><p>我们可以使用channel来同步不同goroutine的执行。</p>
 <figure class="highlight golang"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></div><div class="line"><span class="keyword">import</span> <span class="string">"time"</span></div><div class="line"></div><div class="line"><span class="comment">// 定义一个函数，接收一个channel作为参数，该参数用来通知另一个goroutine该函数已经执行完毕</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">worker</span><span class="params">(done <span class="keyword">chan</span> <span class="keyword">bool</span>)</span></span> &#123;</div><div class="line">    fmt.Println(<span class="string">"working..."</span>)</div><div class="line">    time.Sleep(time.Second)</div><div class="line">    fmt.Println(<span class="string">"done"</span>)</div><div class="line"></div><div class="line">    <span class="comment">// 将成功信号发往channel</span></div><div class="line">    done &lt;- <span class="literal">true</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    done := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">bool</span>)</div><div class="line">    </div><div class="line">    <span class="comment">// 启动新的goroutine执行worker函数，并出入channel</span></div><div class="line">    <span class="keyword">go</span> worker(done)</div><div class="line"></div><div class="line">    <span class="comment">// 接收channel中的值</span></div><div class="line">    <span class="comment">// 如果移除这一句可能收不到任何输出，因为程序可能在worker函数还未执行已经结束了</span></div><div class="line">    &lt;-done</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ go run channel-synchronization.go      </div><div class="line">working...</div><div class="line"><span class="keyword">done</span></div></pre></td></tr></table></figure>
 <p>原文链接：<a href="https://gobyexample.com/channel-synchronization" target="_blank" rel="external">Go by Example: Channel Synchronization</a></p>
@@ -416,8 +416,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/08/03/go-by-example-channel-buffer/" rel="next" title="go_by_example_channel_buffer">
-                <i class="fa fa-chevron-left"></i> go_by_example_channel_buffer
+              <a href="/2017/08/03/go-by-example-channel-buffer/" rel="next" title="Go by Example - Channel Buffering">
+                <i class="fa fa-chevron-left"></i> Go by Example - Channel Buffering
               </a>
             
           </div>
@@ -551,7 +551,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Go-by-Example-Channels"><span class="nav-number">1.</span> <span class="nav-text">Go by Example: Channels</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Go-by-Example-Channel-Synchronization"><span class="nav-number">1.</span> <span class="nav-text">Go by Example: Channel Synchronization</span></a></li></ol></div>
             
 
           </div>
@@ -666,7 +666,7 @@
       var disqus_shortname = 'dangyaming';
       var disqus_identifier = '2017/08/03/go-by-example-channel-synchronization/';
 
-      var disqus_title = "go_by_example_channel_synchronization";
+      var disqus_title = "Go by Example - Channel Synchronization";
 
 
       function run_disqus_script(disqus_script) {
