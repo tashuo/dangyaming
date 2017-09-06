@@ -263,6 +263,1036 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://www.mkidding.com/2017/09/06/go-by-example-tikers/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ta_shuo">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ogslmd0ql.bkt.clouddn.com/oUkcKj6KyFo9sOkbc4QkIQIKh688_583916a5371c5">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ta_shuo">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ta_shuo" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/09/06/go-by-example-tikers/" itemprop="url">
+                  Go by Example - Tickers
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-06T10:50:18+08:00">
+                2017-09-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/" itemprop="url" rel="index">
+                    <span itemprop="name">golang</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/2017/09/06/go-by-example-tikers/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/06/go-by-example-tikers/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/09/06/go-by-example-tikers/" class="leancloud_visitors" data-flag-title="Go by Example - Tickers">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>翻译自 <a href="https://gobyexample.com/" target="_blank" rel="external">https://gobyexample.com/</a></p>
+<blockquote>
+<p>Go by Example</p>
+<p>Go is an open source programming language designed for building simple, fast, and reliable software.</p>
+<p>Go by Example is a hands-on introduction to Go using annotated example programs. Check out the first example or browse the full list below.</p>
+</blockquote>
+<h2 id="Go-by-Example-Tickers"><a href="#Go-by-Example-Tickers" class="headerlink" title="Go by Example: Tickers"></a><center>Go by Example: Tickers</center></h2><p><code>Timer</code>是当你想要在未来某个时间只执行一次某个事件时使用，而<code>ticker</code>可以用来以一定时间间隔重复执行一个事件。</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> <span class="string">"time"</span></div><div class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="comment">// Ticker跟Timer是类似的机制:使用管道来通信</span></div><div class="line">    <span class="comment">// 下面示例中我们使用内置的for-range语句对于每500毫秒接收到一个的值进行迭代处理 </span></div><div class="line">    ticker := time.NewTicker(time.Millisecond * <span class="number">500</span>)</div><div class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</div><div class="line">        <span class="keyword">for</span> t := <span class="keyword">range</span> ticker.C &#123;</div><div class="line">            fmt.Println(<span class="string">"Tick at"</span>, t)</div><div class="line">        &#125;</div><div class="line">    &#125;()</div><div class="line"></div><div class="line">    <span class="comment">// 跟Timer一样，Ticker也可以被停止</span></div><div class="line">    <span class="comment">// 当Ticker取消时，其相应的管道不会再接收到值</span></div><div class="line">    <span class="comment">// 该示例中我们在1600毫秒后停止</span></div><div class="line">    time.Sleep(time.Millisecond * <span class="number">1600</span>)</div><div class="line">    ticker.Stop()</div><div class="line">    fmt.Println(<span class="string">"Ticker stoped"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">tashuo:golang ta_shuo$ go run ticker.go</div><div class="line">Tick at 2017-09-06 11:47:35.512980179 +0800 CST</div><div class="line">Tick at 2017-09-06 11:47:36.012186259 +0800 CST</div><div class="line">Tick at 2017-09-06 11:47:36.515210336 +0800 CST</div><div class="line">Ticker stoped</div></pre></td></tr></table></figure>
+<p>在执行1600毫秒被停止时Ticker 500毫秒的间隔应该已经重复执行了三次</p>
+<p>原文链接：<a href="https://gobyexample.com/tickers" target="_blank" rel="external">Go by Example: Tickers</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://www.mkidding.com/2017/09/06/go-by-example-timer/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ta_shuo">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ogslmd0ql.bkt.clouddn.com/oUkcKj6KyFo9sOkbc4QkIQIKh688_583916a5371c5">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ta_shuo">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ta_shuo" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/09/06/go-by-example-timer/" itemprop="url">
+                  Go by Example - Timers
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-06T09:46:27+08:00">
+                2017-09-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/" itemprop="url" rel="index">
+                    <span itemprop="name">golang</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/2017/09/06/go-by-example-timer/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/06/go-by-example-timer/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/09/06/go-by-example-timer/" class="leancloud_visitors" data-flag-title="Go by Example - Timers">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>翻译自 <a href="https://gobyexample.com/" target="_blank" rel="external">https://gobyexample.com/</a></p>
+<blockquote>
+<p>Go by Example</p>
+<p>Go is an open source programming language designed for building simple, fast, and reliable software.</p>
+<p>Go by Example is a hands-on introduction to Go using annotated example programs. Check out the first example or browse the full list below.</p>
+</blockquote>
+<h2 id="Go-by-Example-Timers"><a href="#Go-by-Example-Timers" class="headerlink" title="Go by Example: Timers"></a><center>Go by Example: Timers</center></h2><p>我们经常希望golang代码在未来某个时间点执行或者以一定的时间间隔重复执行，golang内置的<code>timer</code>和<code>ticker</code>功能可以轻松实现这两种工作。</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> <span class="string">"time"</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="comment">// Timer类似于未来一个独立的事件，可以告诉它你要等待多久，它会提供一个管道用来在时间点到时发出通知</span></div><div class="line">    <span class="comment">// 该例中会等待2秒</span></div><div class="line">    timer1 := time.NewTimer(time.Second * <span class="number">2</span>)</div><div class="line"></div><div class="line">    <span class="comment">// &lt;- timer1.C会一直阻塞直到时间过期管道发送出一个值</span></div><div class="line">    &lt;- timer1.C</div><div class="line">    <span class="built_in">println</span>(<span class="string">"Timer1 expired"</span>)</div><div class="line"></div><div class="line">    <span class="comment">// 如果只是想等待一段时间，可以使用`time.Sleep`</span></div><div class="line">    <span class="comment">// 但使用timer你可以在时间到期前取消，这个也是Sleep做不到的</span></div><div class="line">    timer2 := time.NewTimer(time.Second)</div><div class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</div><div class="line">        &lt;-timer2.C</div><div class="line">        <span class="built_in">println</span>(<span class="string">"Timer2 expired"</span>)</div><div class="line">    &#125;()</div><div class="line"></div><div class="line">    <span class="comment">// 使用Stop来取消timer</span></div><div class="line">    stop2 := timer2.Stop()</div><div class="line">    <span class="keyword">if</span> stop2 &#123;</div><div class="line">        <span class="built_in">println</span>(<span class="string">"Timer2 stopped"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">tashuo:golang ta_shuo$ go run timer.go</div><div class="line">Timer1 expired</div><div class="line">Timer2 stopped</div></pre></td></tr></table></figure>
+<p>第一个timer会在2秒后过期，但是第二个timer在过期前被Stop，所以没有过期</p>
+<p>原文链接：<a href="https://gobyexample.com/timers" target="_blank" rel="external">Go by Example: Timers</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://www.mkidding.com/2017/08/25/go-by-example-range-over-channels/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ta_shuo">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ogslmd0ql.bkt.clouddn.com/oUkcKj6KyFo9sOkbc4QkIQIKh688_583916a5371c5">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ta_shuo">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ta_shuo" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/08/25/go-by-example-range-over-channels/" itemprop="url">
+                  Go by Example - Range over Channels
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-25T10:44:04+08:00">
+                2017-08-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/" itemprop="url" rel="index">
+                    <span itemprop="name">golang</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/2017/08/25/go-by-example-range-over-channels/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/08/25/go-by-example-range-over-channels/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/08/25/go-by-example-range-over-channels/" class="leancloud_visitors" data-flag-title="Go by Example - Range over Channels">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>翻译自 <a href="https://gobyexample.com/" target="_blank" rel="external">https://gobyexample.com/</a></p>
+<blockquote>
+<p>Go by Example</p>
+<p>Go is an open source programming language designed for building simple, fast, and reliable software.</p>
+<p>Go by Example is a hands-on introduction to Go using annotated example programs. Check out the first example or browse the full list below.</p>
+</blockquote>
+<h2 id="Go-by-Example-Range-over-Channels"><a href="#Go-by-Example-Range-over-Channels" class="headerlink" title="Go by Example: Range over Channels"></a><center>Go by Example: Range over Channels</center></h2><p>在前面的示例中看到<code>for</code>和<code>range</code>语句如何给基本数据类型提供迭代操作，我们也可以用它们来迭代channel中接收到的值。</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="comment">// 定义有两个字符串缓存区的channel queue</span></div><div class="line">    <span class="comment">// 我们将要迭代queue中的两个值</span></div><div class="line">    queue := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">string</span>, <span class="number">2</span>)</div><div class="line">    queue &lt;- <span class="string">"one"</span></div><div class="line">    queue &lt;- <span class="string">"two"</span></div><div class="line"></div><div class="line">    <span class="built_in">close</span>(queue)</div><div class="line"></div><div class="line">    <span class="comment">// range会迭代queue中接收到的每个值</span></div><div class="line">    <span class="comment">// 由于在上面已经close掉管道queue，所以在接收完两个值之和迭代就结束了</span></div><div class="line">    <span class="keyword">for</span> elem := <span class="keyword">range</span> queue &#123;</div><div class="line">        fmt.Println(elem)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">tashuo:golang ta_shuo$ go run r_channel.go</div><div class="line">one</div><div class="line">two</div></pre></td></tr></table></figure>
+<p>上面的示例中也看出可以关闭掉一个还有待接收值的非空管道。</p>
+<p>原文链接：<a href="https://gobyexample.com/range-over-channels" target="_blank" rel="external">Go by Example: Range over Channels</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://www.mkidding.com/2017/08/25/go-by-example-closing-channel/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ta_shuo">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ogslmd0ql.bkt.clouddn.com/oUkcKj6KyFo9sOkbc4QkIQIKh688_583916a5371c5">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ta_shuo">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ta_shuo" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/08/25/go-by-example-closing-channel/" itemprop="url">
+                  Go by Example - Closing Channels
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-25T09:38:27+08:00">
+                2017-08-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/" itemprop="url" rel="index">
+                    <span itemprop="name">golang</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/2017/08/25/go-by-example-closing-channel/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/08/25/go-by-example-closing-channel/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/08/25/go-by-example-closing-channel/" class="leancloud_visitors" data-flag-title="Go by Example - Closing Channels">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>翻译自 <a href="https://gobyexample.com/" target="_blank" rel="external">https://gobyexample.com/</a></p>
+<blockquote>
+<p>Go by Example</p>
+<p>Go is an open source programming language designed for building simple, fast, and reliable software.</p>
+<p>Go by Example is a hands-on introduction to Go using annotated example programs. Check out the first example or browse the full list below.</p>
+</blockquote>
+<h2 id="Go-by-Example-Closing-Channels"><a href="#Go-by-Example-Closing-Channels" class="headerlink" title="Go by Example: Closing Channels"></a><center>Go by Example: Closing Channels</center></h2><p>关闭一个管道表明已经没有值会通过它来发送，这个对于向管道的接收者表达已完成的信号是有用的。</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="comment">// 在这个示例中我们使用一个管道jobs来分发工作，这些工作从main goroutine发送到另一个工作goroutine中执行</span></div><div class="line">    <span class="comment">// 如果没有剩余工作要做就关闭管道jobs</span></div><div class="line">    jobs := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>, <span class="number">5</span>)</div><div class="line">    done := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">bool</span>)</div><div class="line"></div><div class="line">    <span class="comment">// 这个就是上文提到的工作goroutine</span></div><div class="line">    <span class="comment">// 它通过‘j, more := &lt;-jobs’重复取值，如果管道jobs被关闭并且所有值都已经接收，more的值将会是false</span></div><div class="line">    <span class="comment">// 我们通过这种方式在已经做完所有工作时通知完成的状态</span></div><div class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</div><div class="line">        <span class="keyword">for</span> &#123;</div><div class="line">            j, more := &lt;-jobs</div><div class="line">            <span class="keyword">if</span> more &#123;</div><div class="line">                <span class="built_in">println</span>(<span class="string">"recieved job"</span>, j)</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="built_in">println</span>(<span class="string">"recieved all jobs"</span>)</div><div class="line">                done &lt;- <span class="literal">true</span></div><div class="line">                <span class="keyword">return</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;()</div><div class="line"></div><div class="line">    <span class="comment">// 通过管道jobs发送三个任务，然后关闭管道</span></div><div class="line">    <span class="keyword">for</span> j := <span class="number">1</span>; j &lt; <span class="number">3</span>; j++ &#123;</div><div class="line">        jobs &lt;- j</div><div class="line">        <span class="built_in">println</span>(<span class="string">"sent job"</span>, j)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="built_in">close</span>(jobs)</div><div class="line">    <span class="built_in">println</span>(<span class="string">"sent all jobs"</span>)</div><div class="line"></div><div class="line">    <span class="comment">// 通过管道同步来等待工作goroutine</span></div><div class="line">    &lt;-done</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">tashuo:golang ta_shuo$ go run closing_channel.go</div><div class="line">sent job 1</div><div class="line">sent job 2</div><div class="line">sent all <span class="built_in">jobs</span></div><div class="line">recieved job 1</div><div class="line">recieved job 2</div><div class="line">recieved all <span class="built_in">jobs</span></div></pre></td></tr></table></figure>
+<p>原文链接：<a href="https://gobyexample.com/closing-channels" target="_blank" rel="external">Go by Example: Closing Channels</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://www.mkidding.com/2017/08/24/go-by-example-non-blocking-channel-operation/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ta_shuo">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ogslmd0ql.bkt.clouddn.com/oUkcKj6KyFo9sOkbc4QkIQIKh688_583916a5371c5">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ta_shuo">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ta_shuo" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/08/24/go-by-example-non-blocking-channel-operation/" itemprop="url">
+                  Go by Example - Non-Blocking Channel Operations
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-24T16:34:03+08:00">
+                2017-08-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/" itemprop="url" rel="index">
+                    <span itemprop="name">golang</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/2017/08/24/go-by-example-non-blocking-channel-operation/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/08/24/go-by-example-non-blocking-channel-operation/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/08/24/go-by-example-non-blocking-channel-operation/" class="leancloud_visitors" data-flag-title="Go by Example - Non-Blocking Channel Operations">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>翻译自 <a href="https://gobyexample.com/" target="_blank" rel="external">https://gobyexample.com/</a></p>
+<blockquote>
+<p>Go by Example</p>
+<p>Go is an open source programming language designed for building simple, fast, and reliable software.</p>
+<p>Go by Example is a hands-on introduction to Go using annotated example programs. Check out the first example or browse the full list below.</p>
+</blockquote>
+<h2 id="Go-by-Example-Non-Blocking-Channel-Operations"><a href="#Go-by-Example-Non-Blocking-Channel-Operations" class="headerlink" title="Go by Example: Non-Blocking Channel Operations"></a><center>Go by Example: Non-Blocking Channel Operations</center></h2><p>普通管道的发送与接收都是阻塞的，然而我们可以使用select的default条件来实现非阻塞的发送，接收和甚至是非阻塞的多路复用的<code>selects</code>。</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    messages := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">string</span>)</div><div class="line">    signals := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">bool</span>)</div><div class="line"></div><div class="line">    <span class="comment">// 这里是一个非阻塞的接收者，如果管道msg就绪的话select会使用管道值执行这条分支</span></div><div class="line">    <span class="comment">// 否则的话select会执行default分支</span></div><div class="line">    <span class="keyword">select</span> &#123;</div><div class="line">        <span class="keyword">case</span> msg := &lt;-messages:</div><div class="line">            fmt.Println(<span class="string">"recieved message"</span>, msg)</div><div class="line">        <span class="keyword">default</span>:</div><div class="line">            fmt.Println(<span class="string">"no message received"</span>)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 类似的非阻塞的发送者</span></div><div class="line">    msg := <span class="string">"hi"</span></div><div class="line">    <span class="keyword">select</span> &#123;</div><div class="line">        <span class="keyword">case</span> messages &lt;- msg:</div><div class="line">            fmt.Println(<span class="string">"sent message"</span>, msg)</div><div class="line">        <span class="keyword">default</span>:</div><div class="line">            fmt.Println(<span class="string">"no message sent"</span>)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 可以在default分支前使用多个条件分支用于实现一个非阻塞的多路复用select</span></div><div class="line">    <span class="comment">// 下面的例子尝试同时非阻塞的接收messages和signals两个管道的值</span></div><div class="line">    <span class="keyword">select</span> &#123;</div><div class="line">        <span class="keyword">case</span> msg := &lt;-messages:</div><div class="line">            fmt.Println(<span class="string">"recieved messages"</span>, msg)</div><div class="line">        <span class="keyword">case</span> sig := &lt;-signals:</div><div class="line">            fmt.Println(<span class="string">"recieved signals"</span>, sig)</div><div class="line">        <span class="keyword">default</span>:</div><div class="line">            fmt.Println(<span class="string">"no activity"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">tashuo:golang ta_shuo$ go run non-blocking-channel.go</div><div class="line">no message received</div><div class="line">no message sent</div><div class="line">no activity</div></pre></td></tr></table></figure>
+<p>原文链接：<a href="https://gobyexample.com/non-blocking-channel-operations" target="_blank" rel="external">Go by Example: Non-Blocking Channel Operations</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://www.mkidding.com/2017/08/24/go-by-example-timeout/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ta_shuo">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ogslmd0ql.bkt.clouddn.com/oUkcKj6KyFo9sOkbc4QkIQIKh688_583916a5371c5">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ta_shuo">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ta_shuo" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/08/24/go-by-example-timeout/" itemprop="url">
+                  Go by Example - Timeouts
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-24T11:05:22+08:00">
+                2017-08-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/" itemprop="url" rel="index">
+                    <span itemprop="name">golang</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/2017/08/24/go-by-example-timeout/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/08/24/go-by-example-timeout/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/08/24/go-by-example-timeout/" class="leancloud_visitors" data-flag-title="Go by Example - Timeouts">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>翻译自 <a href="https://gobyexample.com/" target="_blank" rel="external">https://gobyexample.com/</a></p>
+<blockquote>
+<p>Go by Example</p>
+<p>Go is an open source programming language designed for building simple, fast, and reliable software.</p>
+<p>Go by Example is a hands-on introduction to Go using annotated example programs. Check out the first example or browse the full list below.</p>
+</blockquote>
+<h2 id="Go-by-Example-Timeouts"><a href="#Go-by-Example-Timeouts" class="headerlink" title="Go by Example: Timeouts"></a><center>Go by Example: Timeouts</center></h2><p>超时对于需要联接外部资源或需要限定执行时间的程序非常重要，在golang中因为存在<code>channel</code>和<code>select</code>使得超时实现起来非常简单。</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> <span class="string">"time"</span></div><div class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="comment">// 通过管道c1模拟一个2s后才有返回值的外部请求</span></div><div class="line">    c1 := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">string</span>, <span class="number">1</span>)</div><div class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</div><div class="line">        time.Sleep(time.Second * <span class="number">2</span>)</div><div class="line">        c1 &lt;- <span class="string">"result 1"</span></div><div class="line">    &#125;()</div><div class="line"></div><div class="line">    <span class="comment">// 使用select执行一条超时操作</span></div><div class="line">    <span class="comment">// res等待管道c1的值，&lt;-time.After(time.Second * 1)等待一个一秒后发送的值。</span></div><div class="line">    <span class="comment">// 由于select会执行第一个就绪的条件，所以如果前者执行时间超过后者代码中规定的一秒便会进入后者超时的情况</span></div><div class="line">    <span class="keyword">select</span> &#123;</div><div class="line">        <span class="keyword">case</span> res := &lt;-c1:</div><div class="line">            fmt.Println(res)</div><div class="line">        <span class="keyword">case</span> &lt;-time.After(time.Second * <span class="number">1</span>):</div><div class="line">            fmt.Println(<span class="string">"timeout1"</span>)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 由于res会在两秒后就绪，小于超时的三秒限制，所以不会超时</span></div><div class="line">    c2 := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">string</span>)</div><div class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</div><div class="line">        time.Sleep(time.Second * <span class="number">2</span>)</div><div class="line">        c2 &lt;- <span class="string">"result 2"</span></div><div class="line">    &#125;()</div><div class="line">    <span class="keyword">select</span> &#123;</div><div class="line">        <span class="keyword">case</span> res := &lt;-c2:</div><div class="line">            fmt.Println(res)</div><div class="line">        <span class="keyword">case</span> &lt;-time.After(time.Second * <span class="number">3</span>):</div><div class="line">            fmt.Println(<span class="string">"timeout 2"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">tashuo:golang ta_shuo$ go run timeout.go</div><div class="line">timeout1</div><div class="line">result 2</div></pre></td></tr></table></figure>
+<p>使用select结构的超时模式需要借助管道进行通信，这通常是个好主意因为其他一些golang重要的功能也是基于管道和select。</p>
+<p>原文链接：<a href="https://gobyexample.com/timeouts" target="_blank" rel="external">Go by Example: Timeouts</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="https://www.mkidding.com/2017/08/24/go-by-example-select/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -927,1032 +1957,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://www.mkidding.com/2017/08/03/go-by-example-channel-synchronization/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="ta_shuo">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="http://ogslmd0ql.bkt.clouddn.com/oUkcKj6KyFo9sOkbc4QkIQIKh688_583916a5371c5">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="ta_shuo">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="ta_shuo" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/08/03/go-by-example-channel-synchronization/" itemprop="url">
-                  Go by Example - Channel Synchronization
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-03T16:39:56+08:00">
-                2017-08-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/golang/" itemprop="url" rel="index">
-                    <span itemprop="name">golang</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/golang/笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <a href="/2017/08/03/go-by-example-channel-synchronization/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/08/03/go-by-example-channel-synchronization/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2017/08/03/go-by-example-channel-synchronization/" class="leancloud_visitors" data-flag-title="Go by Example - Channel Synchronization">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>翻译自 <a href="https://gobyexample.com/" target="_blank" rel="external">https://gobyexample.com/</a></p>
-<blockquote>
-<p>Go by Example</p>
-<p>Go is an open source programming language designed for building simple, fast, and reliable software.</p>
-<p>Go by Example is a hands-on introduction to Go using annotated example programs. Check out the first example or browse the full list below.</p>
-</blockquote>
-<h2 id="Go-by-Example-Channel-Synchronization"><a href="#Go-by-Example-Channel-Synchronization" class="headerlink" title="Go by Example: Channel Synchronization"></a><center>Go by Example: Channel Synchronization</center></h2><p>我们可以使用channel来同步不同goroutine的执行。</p>
-<figure class="highlight golang"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></div><div class="line"><span class="keyword">import</span> <span class="string">"time"</span></div><div class="line"></div><div class="line"><span class="comment">// 定义一个函数，接收一个channel作为参数，该参数用来通知另一个goroutine该函数已经执行完毕</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">worker</span><span class="params">(done <span class="keyword">chan</span> <span class="keyword">bool</span>)</span></span> &#123;</div><div class="line">    fmt.Println(<span class="string">"working..."</span>)</div><div class="line">    time.Sleep(time.Second)</div><div class="line">    fmt.Println(<span class="string">"done"</span>)</div><div class="line"></div><div class="line">    <span class="comment">// 将成功信号发往channel</span></div><div class="line">    done &lt;- <span class="literal">true</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    done := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">bool</span>)</div><div class="line">    </div><div class="line">    <span class="comment">// 启动新的goroutine执行worker函数，并出入channel</span></div><div class="line">    <span class="keyword">go</span> worker(done)</div><div class="line"></div><div class="line">    <span class="comment">// 接收channel中的值</span></div><div class="line">    <span class="comment">// 如果移除这一句可能收不到任何输出，因为程序可能在worker函数还未执行已经结束了</span></div><div class="line">    &lt;-done</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ go run channel-synchronization.go      </div><div class="line">working...</div><div class="line"><span class="keyword">done</span></div></pre></td></tr></table></figure>
-<p>原文链接：<a href="https://gobyexample.com/channel-synchronization" target="_blank" rel="external">Go by Example: Channel Synchronization</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://www.mkidding.com/2017/08/03/go-by-example-channel-buffer/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="ta_shuo">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="http://ogslmd0ql.bkt.clouddn.com/oUkcKj6KyFo9sOkbc4QkIQIKh688_583916a5371c5">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="ta_shuo">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="ta_shuo" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/08/03/go-by-example-channel-buffer/" itemprop="url">
-                  Go by Example - Channel Buffering
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-03T16:26:22+08:00">
-                2017-08-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/golang/" itemprop="url" rel="index">
-                    <span itemprop="name">golang</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/golang/笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <a href="/2017/08/03/go-by-example-channel-buffer/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/08/03/go-by-example-channel-buffer/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2017/08/03/go-by-example-channel-buffer/" class="leancloud_visitors" data-flag-title="Go by Example - Channel Buffering">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>翻译自 <a href="https://gobyexample.com/" target="_blank" rel="external">https://gobyexample.com/</a></p>
-<blockquote>
-<p>Go by Example</p>
-<p>Go is an open source programming language designed for building simple, fast, and reliable software.</p>
-<p>Go by Example is a hands-on introduction to Go using annotated example programs. Check out the first example or browse the full list below.</p>
-</blockquote>
-<h2 id="Go-by-Example-Channel-Buffering"><a href="#Go-by-Example-Channel-Buffering" class="headerlink" title="Go by Example: Channel Buffering"></a><center>Go by Example: Channel Buffering</center></h2><p>默认情况下channel是没有缓冲区的，这意味着它们只会在有一个相应的接收者准备好接收管道数据时才会接受发送者往管道发送数据。有缓冲区的channel可以在没有相应接收者时接受发送者发送特定数量的数值。</p>
-<figure class="highlight golang"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="comment">// 创建一个string类型的，缓冲区长度为2的channel</span></div><div class="line">    messages := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">string</span>, <span class="number">2</span>)</div><div class="line"></div><div class="line">    <span class="comment">// 由于创建的channel有缓冲区，所以可以直接往里面发送数据而不需要有接收者。</span></div><div class="line">    messages &lt;- <span class="string">"buffered"</span></div><div class="line">    messages &lt;- <span class="string">"channel"</span></div><div class="line"></div><div class="line">    <span class="comment">// 接收channel中的数据</span></div><div class="line">    fmt.Println(&lt;-messages)</div><div class="line">    fmt.Println(&lt;-messages)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>原文链接：<a href="https://gobyexample.com/channel-buffering" target="_blank" rel="external">Go by Example: Channel Buffering</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://www.mkidding.com/2017/08/03/go-by-example-channel/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="ta_shuo">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="http://ogslmd0ql.bkt.clouddn.com/oUkcKj6KyFo9sOkbc4QkIQIKh688_583916a5371c5">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="ta_shuo">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="ta_shuo" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/08/03/go-by-example-channel/" itemprop="url">
-                  Go by Example - Channels
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-03T15:18:11+08:00">
-                2017-08-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/golang/" itemprop="url" rel="index">
-                    <span itemprop="name">golang</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/golang/笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <a href="/2017/08/03/go-by-example-channel/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/08/03/go-by-example-channel/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2017/08/03/go-by-example-channel/" class="leancloud_visitors" data-flag-title="Go by Example - Channels">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>翻译自 <a href="https://gobyexample.com/" target="_blank" rel="external">https://gobyexample.com/</a></p>
-<blockquote>
-<p>Go by Example</p>
-<p>Go is an open source programming language designed for building simple, fast, and reliable software.</p>
-<p>Go by Example is a hands-on introduction to Go using annotated example programs. Check out the first example or browse the full list below.</p>
-</blockquote>
-<h2 id="Go-by-Example-Channels"><a href="#Go-by-Example-Channels" class="headerlink" title="Go by Example: Channels"></a><center>Go by Example: Channels</center></h2><p>channel是golang中连接不同goroutine之间的管道。你可以从一个goroutine往channel中发送数据而从另一个goroutine中获取到这些数据。</p>
-<figure class="highlight golang"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="comment">// 创建一个channel</span></div><div class="line">    messages := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">string</span>)</div><div class="line"></div><div class="line">    <span class="comment">// 使用'&lt;-'操作符来往管道发送数据</span></div><div class="line">    <span class="comment">// 在一个新的goroutine执行</span></div><div class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</div><div class="line">        messages &lt;- <span class="string">"ping"</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 使用'&lt;-'操作符接收管道中的数据</span></div><div class="line">    <span class="comment">// 这里会接收到从上面那个新开的goroutine中发往管道的"ping"</span></div><div class="line">    <span class="comment">// 默认情况下对于管道的操作-发送和接收都是阻塞的，直到发送方和接收方准备就绪。</span></div><div class="line">    <span class="comment">// 这个特性使得我们在程序结尾可以不用做任何同步操作而去等待接收管道中的数据"ping"。</span></div><div class="line">    msg := &lt;- messages</div><div class="line">    fmt.Println(msg)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ go run channels.go </div><div class="line">ping</div></pre></td></tr></table></figure>
-<p>原文链接：<a href="https://gobyexample.com/channels" target="_blank" rel="external">Go by Example: Channels</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://www.mkidding.com/2017/08/03/go-by-example-goroutine/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="ta_shuo">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="http://ogslmd0ql.bkt.clouddn.com/oUkcKj6KyFo9sOkbc4QkIQIKh688_583916a5371c5">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="ta_shuo">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="ta_shuo" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/08/03/go-by-example-goroutine/" itemprop="url">
-                  Go by Example - Goroutines
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-03T14:50:07+08:00">
-                2017-08-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/golang/" itemprop="url" rel="index">
-                    <span itemprop="name">golang</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/golang/笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <a href="/2017/08/03/go-by-example-goroutine/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/08/03/go-by-example-goroutine/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2017/08/03/go-by-example-goroutine/" class="leancloud_visitors" data-flag-title="Go by Example - Goroutines">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>翻译自 <a href="https://gobyexample.com/" target="_blank" rel="external">https://gobyexample.com/</a></p>
-<blockquote>
-<p>Go by Example</p>
-<p>Go is an open source programming language designed for building simple, fast, and reliable software.</p>
-<p>Go by Example is a hands-on introduction to Go using annotated example programs. Check out the first example or browse the full list below.</p>
-</blockquote>
-<h2 id="Go-by-Example-Goroutines"><a href="#Go-by-Example-Goroutines" class="headerlink" title="Go by Example: Goroutines"></a><center>Go by Example: Goroutines</center></h2><p>golang中的goroutine是一个比线程还要轻量的调度单位。</p>
-<figure class="highlight golang"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">f</span><span class="params">(form <span class="keyword">string</span>)</span></span> &#123;</div><div class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">3</span>; i++ &#123;</div><div class="line">        fmt.Println(from, <span class="string">":"</span>, i)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="comment">// 常用的函数调用方式，同步执行</span></div><div class="line">    f(<span class="string">"direct"</span>)</div><div class="line"></div><div class="line">    <span class="comment">// 使用go关键字来启动goroutine执行函数，跟正在执行的函数调用并行执行</span></div><div class="line">    <span class="keyword">go</span> f(<span class="string">"goroutine"</span>)</div><div class="line"></div><div class="line">    <span class="comment">// 也可以启动goroutine执行匿名函数</span></div><div class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">(msg <span class="keyword">string</span>)</span></span> &#123;</div><div class="line">        fmt.Println(msg)</div><div class="line">    &#125;(<span class="string">"going"</span>)</div><div class="line"></div><div class="line">    <span class="comment">// 上面两个go启动的函数调用在独立的goroutine中异步执行</span></div><div class="line">    <span class="comment">// 下面Scanln函数在接收到外界一个输入时结束程序</span></div><div class="line">    <span class="keyword">var</span> input <span class="keyword">string</span></div><div class="line">    fmt.Scanln(&amp;input)</div><div class="line">    fmt.Println(<span class="string">"done"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">// 从输出的结果，匿名函数的输出插入在第一个goroutine的输出中，可看出两个函数调用是在独立的goroutine中并行执行</div><div class="line">$ go run goroutines.go</div><div class="line">direct : 0</div><div class="line">direct : 1</div><div class="line">direct : 2</div><div class="line">goroutine : 0</div><div class="line">going</div><div class="line">goroutine : 1</div><div class="line">goroutine : 2</div><div class="line">&lt;enter&gt;</div><div class="line"><span class="keyword">done</span></div></pre></td></tr></table></figure>
-<p>原文链接：<a href="https://gobyexample.com/goroutines" target="_blank" rel="external">Go by Example: Goroutines</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://www.mkidding.com/2017/08/02/go-by-example-interface/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="ta_shuo">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="http://ogslmd0ql.bkt.clouddn.com/oUkcKj6KyFo9sOkbc4QkIQIKh688_583916a5371c5">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="ta_shuo">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="ta_shuo" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/08/02/go-by-example-interface/" itemprop="url">
-                  Go by Example - Interfaces
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-02T11:05:36+08:00">
-                2017-08-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/golang/" itemprop="url" rel="index">
-                    <span itemprop="name">golang</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/golang/笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <a href="/2017/08/02/go-by-example-interface/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/08/02/go-by-example-interface/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2017/08/02/go-by-example-interface/" class="leancloud_visitors" data-flag-title="Go by Example - Interfaces">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>翻译自 <a href="https://gobyexample.com/" target="_blank" rel="external">https://gobyexample.com/</a></p>
-<blockquote>
-<p>Go by Example</p>
-<p>Go is an open source programming language designed for building simple, fast, and reliable software.</p>
-<p>Go by Example is a hands-on introduction to Go using annotated example programs. Check out the first example or browse the full list below.</p>
-</blockquote>
-<h2 id="Go-by-Example-Interfaces"><a href="#Go-by-Example-Interfaces" class="headerlink" title="Go by Example: Interfaces"></a><center>Go by Example: Interfaces</center></h2><p>golang中接口被定义为一系列方法的集合。</p>
-<figure class="highlight golang"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></div><div class="line"><span class="keyword">import</span> <span class="string">"math"</span></div><div class="line"></div><div class="line"><span class="comment">// 定义一个基本几何图形的接口</span></div><div class="line"><span class="keyword">type</span> geometry <span class="keyword">interface</span> &#123;</div><div class="line">    area() <span class="keyword">float64</span></div><div class="line">    perim() <span class="keyword">float64</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 定义两个结构体 rect和circle 实现这个接口</span></div><div class="line"><span class="keyword">type</span> rect <span class="keyword">struct</span> &#123;</div><div class="line">    width, height <span class="keyword">float64</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">type</span> circle <span class="keyword">struct</span> &#123;</div><div class="line">    radius <span class="keyword">float64</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// golang中实现一个接口类型，只需实现该接口所有的方法</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r rect)</span> <span class="title">area</span><span class="params">()</span> <span class="title">float64</span></span> &#123;</div><div class="line">    <span class="keyword">return</span> r.width * r.height</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r rect)</span> <span class="title">perim</span><span class="params">()</span> <span class="title">float64</span></span> &#123;</div><div class="line">    <span class="keyword">return</span> <span class="number">2</span>*r.width + <span class="number">2</span>*r.height</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c circle)</span> <span class="title">area</span><span class="params">()</span> <span class="title">float64</span></span> &#123;</div><div class="line">    <span class="keyword">return</span> math.Pi * c.radius * c.radius</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c circle)</span> <span class="title">perim</span><span class="params">()</span> <span class="title">float64</span></span> &#123;</div><div class="line">    <span class="keyword">return</span> <span class="number">2</span> * math.Pi * c.radius</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 如果一个变量实现了一个接口类型，则该变量可以调用接口所有的方法</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">measure</span><span class="params">(g geometry)</span></span> &#123;</div><div class="line">    fmt.Println(g)</div><div class="line">    fmt.Println(g.area())</div><div class="line">    fmt.Println(g.perim())</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    r := rect&#123;width: <span class="number">3</span>, height: <span class="number">4</span>&#125;</div><div class="line">    c := circle&#123;radius: <span class="number">5</span>&#125;</div><div class="line"></div><div class="line">    measure(r)</div><div class="line">    measure(c)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$ go run interfaces.go</div><div class="line">&#123;3 4&#125;</div><div class="line">12</div><div class="line">14</div><div class="line">&#123;5&#125;</div><div class="line">78.53981633974483</div><div class="line">31.41592653589793</div></pre></td></tr></table></figure>
-<p>延伸阅读: <a href="http://jordanorelli.tumblr.com/post/32665860244/how-to-use-interfaces-in-go" target="_blank" rel="external">how-to-use-interfaces-in-go</a></p>
-<p>原文链接：<a href="https://gobyexample.com/interfaces" target="_blank" rel="external">Go by Example: Interfaces</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://www.mkidding.com/2017/08/02/go-by-example-method/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="ta_shuo">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="http://ogslmd0ql.bkt.clouddn.com/oUkcKj6KyFo9sOkbc4QkIQIKh688_583916a5371c5">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="ta_shuo">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="ta_shuo" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/08/02/go-by-example-method/" itemprop="url">
-                  Go by Example - Methods
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-02T10:43:42+08:00">
-                2017-08-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/golang/" itemprop="url" rel="index">
-                    <span itemprop="name">golang</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/golang/笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <a href="/2017/08/02/go-by-example-method/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/08/02/go-by-example-method/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2017/08/02/go-by-example-method/" class="leancloud_visitors" data-flag-title="Go by Example - Methods">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>翻译自 <a href="https://gobyexample.com/" target="_blank" rel="external">https://gobyexample.com/</a></p>
-<blockquote>
-<p>Go by Example</p>
-<p>Go is an open source programming language designed for building simple, fast, and reliable software.</p>
-<p>Go by Example is a hands-on introduction to Go using annotated example programs. Check out the first example or browse the full list below.</p>
-</blockquote>
-<h2 id="Go-by-Example-Methods"><a href="#Go-by-Example-Methods" class="headerlink" title="Go by Example: Methods"></a><center>Go by Example: Methods</center></h2><p>golang支持在结构体上定义方法。</p>
-<figure class="highlight golang"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></div><div class="line"></div><div class="line"><span class="keyword">type</span> rect <span class="keyword">struct</span> &#123;</div><div class="line">    width, height <span class="keyword">int</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 在rect的引用类型上定义一个area方法</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *rect)</span> <span class="title">area</span><span class="params">()</span> <span class="title">int</span></span> &#123;</div><div class="line">    <span class="keyword">return</span> <span class="number">2</span>*r.width * <span class="number">2</span>*r.height</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 也可以将方法定义在结构体上</span></div><div class="line">funv (r rect) perim() <span class="keyword">int</span> &#123;</div><div class="line">    <span class="keyword">return</span> <span class="number">2</span>*r.width + <span class="number">2</span>*r.height</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    r := rect&#123;width: <span class="number">10</span>, height: <span class="number">5</span>&#125;</div><div class="line"></div><div class="line">    <span class="comment">// 直接使用结构体来调用两个方法</span></div><div class="line">    fmt.Println(<span class="string">"area: "</span>, r.area())</div><div class="line">    fmt.Println(<span class="string">"perim: "</span>, r.perim())</div><div class="line"></div><div class="line">    rp := &amp;r</div><div class="line">    </div><div class="line">    <span class="comment">// golang会在方法调用时在结构体和引用之间自动转换，你可能希望使用指针来避免方法调用时的值传递，并且可以在方法内修改传入的结构体的值</span></div><div class="line">    fmt.Println(<span class="string">"area: "</span>, rp.area())</div><div class="line">    fmt.Println(<span class="string">"perim: "</span>, rp.perim())</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ go run methods.go </div><div class="line">area:  50</div><div class="line">perim: 30</div><div class="line">area:  50</div><div class="line">perim: 30</div></pre></td></tr></table></figure>
-<p>原文链接：<a href="https://gobyexample.com/methods" target="_blank" rel="external">Go by Example: Methods</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1998,7 +2002,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">42</span>
+              <span class="site-state-item-count">48</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
