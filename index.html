@@ -263,6 +263,350 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://www.mkidding.com/2017/11/24/go-by-example-rate-limiting/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ta_shuo">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ogslmd0ql.bkt.clouddn.com/oUkcKj6KyFo9sOkbc4QkIQIKh688_583916a5371c5">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ta_shuo">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ta_shuo" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/11/24/go-by-example-rate-limiting/" itemprop="url">
+                  Go by Example - Rate Limiting
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-24T15:28:43+08:00">
+                2017-11-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/" itemprop="url" rel="index">
+                    <span itemprop="name">golang</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/2017/11/24/go-by-example-rate-limiting/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/11/24/go-by-example-rate-limiting/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/11/24/go-by-example-rate-limiting/" class="leancloud_visitors" data-flag-title="Go by Example - Rate Limiting">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>翻译自 <a href="https://gobyexample.com/" target="_blank" rel="external">https://gobyexample.com/</a></p>
+<blockquote>
+<p>Go by Example</p>
+<p>Go is an open source programming language designed for building simple, fast, and reliable software.</p>
+<p>Go by Example is a hands-on introduction to Go using annotated example programs. Check out the first example or browse the full list below.</p>
+</blockquote>
+<h2 id="Go-by-Example-Rate-Limiting"><a href="#Go-by-Example-Rate-Limiting" class="headerlink" title="Go by Example: Rate Limiting"></a><center>Go by Example: Rate Limiting</center></h2><p>限速是控制资源利用率和维持服务质量的一种重要机制。golang通过<code>goroutines</code>、<code>channels</code>和<code>tickers</code>优雅的支持限速。</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></div><div class="line"><span class="keyword">import</span> <span class="string">"time"</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="comment">// 首先来看下基本的限速功能</span></div><div class="line">    <span class="comment">// 假设我们想限制对请求的处理</span></div><div class="line">    <span class="comment">// 我们将从同一个管道中提供这样的请求</span></div><div class="line">    requests := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>,  <span class="number">5</span>)</div><div class="line">    <span class="keyword">for</span> i := <span class="number">1</span>; i &lt;= <span class="number">5</span>; i++ &#123;</div><div class="line">        requests &lt;- i</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">close</span>(requests)</div><div class="line"></div><div class="line">    <span class="comment">// 该管道每200毫秒接收一个值</span></div><div class="line">    <span class="comment">// 这个是我们限速的核心</span></div><div class="line">    limiter := time.Tick(time.Millisecond * <span class="number">200</span>)</div><div class="line"></div><div class="line">    <span class="comment">// 通过处理每个请求时管道接收值的阻塞，我们限制每200毫秒只处理一个请求</span></div><div class="line">    <span class="keyword">for</span> req := <span class="keyword">range</span> requests &#123;</div><div class="line">        &lt;-limiter</div><div class="line">        fmt.Println(<span class="string">"request"</span>, req, time.Now())</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 某些时候可能希望在保持整体限速规则下允许少量的请求不受限制</span></div><div class="line">    <span class="comment">// 可以通过含有缓冲区的管道来实现</span></div><div class="line">    <span class="comment">// burstyLimiter管道可以使同时处理的请求达到3个</span></div><div class="line">    burstyLimiter := <span class="built_in">make</span>(<span class="keyword">chan</span> time.Time, <span class="number">3</span>)</div><div class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">3</span>; i++ &#123;</div><div class="line">        burstyLimiter &lt;- time.Now()</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 每200毫秒发送给burstyLimiter管道一个值</span></div><div class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</div><div class="line">        <span class="keyword">for</span> t := <span class="keyword">range</span> time.Tick(time.Millisecond * <span class="number">200</span>) &#123;</div><div class="line">            burstyLimiter &lt;- t</div><div class="line">        &#125;</div><div class="line">    &#125;()</div><div class="line"></div><div class="line">    <span class="comment">// 模拟5个新的请求，前三个请求由于burstyLimiter管道缓冲区的处理可以突破200毫秒的限制</span></div><div class="line">    burstyRequests := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>, <span class="number">5</span>)</div><div class="line">    <span class="keyword">for</span> i := <span class="number">1</span>; i &lt;= <span class="number">5</span>; i++ &#123;</div><div class="line">        burstyRequests &lt;- i</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">close</span>(burstyRequests)</div><div class="line"></div><div class="line">    <span class="keyword">for</span> req := <span class="keyword">range</span> burstyRequests &#123;</div><div class="line">        &lt;-burstyLimiter</div><div class="line">        fmt.Println(<span class="string">"request"</span>, req, time.Now())</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">tashuo:golang ta_shuo$ go run rate-limiting.go</div><div class="line">request 1 2017-11-24 15:45:04.641607273 +0800 CST</div><div class="line">request 2 2017-11-24 15:45:04.838581623 +0800 CST</div><div class="line">request 3 2017-11-24 15:45:05.040839234 +0800 CST</div><div class="line">request 4 2017-11-24 15:45:05.241695212 +0800 CST</div><div class="line">request 5 2017-11-24 15:45:05.441367122 +0800 CST</div><div class="line">request 1 2017-11-24 15:45:05.441428032 +0800 CST</div><div class="line">request 2 2017-11-24 15:45:05.441435722 +0800 CST</div><div class="line">request 3 2017-11-24 15:45:05.441440602 +0800 CST</div><div class="line">request 4 2017-11-24 15:45:05.641538132 +0800 CST</div><div class="line">request 5 2017-11-24 15:45:05.84206538 +0800 CST</div></pre></td></tr></table></figure>
+<p>前5个请求跟预期一样是每200秒处理一个，后面5个请求中的前3个并没有被200毫秒的规则限制到。</p>
+<p>原文链接：<a href="https://gobyexample.com/rate-limiting" target="_blank" rel="external">Go by Example: Rate Limiting</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://www.mkidding.com/2017/11/24/go-by-example-worker-pool/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ta_shuo">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ogslmd0ql.bkt.clouddn.com/oUkcKj6KyFo9sOkbc4QkIQIKh688_583916a5371c5">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ta_shuo">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ta_shuo" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/11/24/go-by-example-worker-pool/" itemprop="url">
+                  Go by Example - Worker Pools
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-24T12:21:09+08:00">
+                2017-11-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/" itemprop="url" rel="index">
+                    <span itemprop="name">golang</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/2017/11/24/go-by-example-worker-pool/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/11/24/go-by-example-worker-pool/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/11/24/go-by-example-worker-pool/" class="leancloud_visitors" data-flag-title="Go by Example - Worker Pools">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>翻译自 <a href="https://gobyexample.com/" target="_blank" rel="external">https://gobyexample.com/</a></p>
+<blockquote>
+<p>Go by Example</p>
+<p>Go is an open source programming language designed for building simple, fast, and reliable software.</p>
+<p>Go by Example is a hands-on introduction to Go using annotated example programs. Check out the first example or browse the full list below.</p>
+</blockquote>
+<h2 id="Go-by-Example-Worker-Pools"><a href="#Go-by-Example-Worker-Pools" class="headerlink" title="Go by Example: Worker Pools"></a><center>Go by Example: Worker Pools</center></h2><p>这节探索如何使用<code>goroutine</code>和<code>channel</code>实现工作池的功能。</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></div><div class="line"><span class="keyword">import</span> <span class="string">"time"</span></div><div class="line"></div><div class="line"><span class="comment">// 这个是工作进程，用来执行并发的任务</span></div><div class="line"><span class="comment">// 每个进程都会从管道jobs接受工作，并且将相应发送至管道results</span></div><div class="line"><span class="comment">// 每个工作我们都会睡眠一秒用以模拟一项耗时的任务</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">worker</span><span class="params">(id <span class="keyword">int</span>, jobs &lt;-<span class="keyword">chan</span> <span class="keyword">int</span>, results <span class="keyword">chan</span>&lt;- <span class="keyword">int</span>)</span></span> &#123;</div><div class="line">    <span class="keyword">for</span> j := <span class="keyword">range</span> jobs &#123;</div><div class="line">        fmt.Println(<span class="string">"worker"</span>, id, <span class="string">"started job"</span>, j)</div><div class="line">        time.Sleep(time.Second)</div><div class="line">        fmt.Println(<span class="string">"worker"</span>, id, <span class="string">"finished job"</span>, j)</div><div class="line">        results &lt;- j * <span class="number">2</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="comment">// 初始化两个管道用以给工作进程分配任务及接收结果</span></div><div class="line">    jobs := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>, <span class="number">100</span>)</div><div class="line">    results := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>, <span class="number">100</span>)</div><div class="line"></div><div class="line">    <span class="comment">// 启动三个工作进程</span></div><div class="line">    <span class="comment">// 此时它们是阻塞的，因为管道jobs是空的</span></div><div class="line">    <span class="keyword">for</span> w:= <span class="number">1</span>; w &lt;= <span class="number">3</span>; w++ &#123;</div><div class="line">        <span class="keyword">go</span> worker(w, jobs, results)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 初始化5个任务</span></div><div class="line">    <span class="comment">// 关闭管道jobs，标识没有多余的任务了</span></div><div class="line">    <span class="keyword">for</span> j:= <span class="number">1</span>; j &lt;= <span class="number">5</span>; j++ &#123;</div><div class="line">        jobs &lt;- j</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">close</span>(jobs)</div><div class="line"></div><div class="line">    <span class="comment">// 收集所有任务的结果</span></div><div class="line">    <span class="keyword">for</span> a := <span class="number">1</span>; a &lt;= <span class="number">5</span>; a++ &#123;</div><div class="line">        &lt;-results</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">tashuo:golang ta_shuo$ go run worker-pool.go</div><div class="line">worker 3 started job 1</div><div class="line">worker 2 started job 3</div><div class="line">worker 1 started job 2</div><div class="line">worker 3 finished job 1</div><div class="line">worker 3 started job 4</div><div class="line">worker 2 finished job 3</div><div class="line">worker 1 finished job 2</div><div class="line">worker 2 started job 5</div><div class="line">worker 2 finished job 5</div><div class="line">worker 3 finished job 4</div></pre></td></tr></table></figure>
+<p>通过输出可以看出5个任务被多个工作进程执行。程序只消耗了2秒多而不是5秒，是因为所有的任务被3个工作进程并发处理。</p>
+<p>原文链接：<a href="https://gobyexample.com/worker-pools" target="_blank" rel="external">Go by Example: Worker Pools</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="https://www.mkidding.com/2017/09/06/go-by-example-tikers/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1626,337 +1970,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://www.mkidding.com/2017/08/21/Jean-Christophe-Note/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="ta_shuo">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="http://ogslmd0ql.bkt.clouddn.com/oUkcKj6KyFo9sOkbc4QkIQIKh688_583916a5371c5">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="ta_shuo">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="ta_shuo" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/08/21/Jean-Christophe-Note/" itemprop="url">
-                  《约翰·克利斯朵夫》节选
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-21T21:55:41+08:00">
-                2017-08-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/life/" itemprop="url" rel="index">
-                    <span itemprop="name">生活</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <a href="/2017/08/21/Jean-Christophe-Note/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/08/21/Jean-Christophe-Note/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2017/08/21/Jean-Christophe-Note/" class="leancloud_visitors" data-flag-title="《约翰·克利斯朵夫》节选">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <blockquote>
-<p>作者：[法] 罗曼·罗兰 </p>
-<p>出版年: 2012-1-1</p>
-<p>出版社: 江苏文艺</p>
-<p>译者：傅雷</p>
-<p>ISBN: 9787539946801</p>
-<p>豆瓣链接：<a href="https://book.douban.com/subject/7000672/" target="_blank" rel="external">https://book.douban.com/subject/7000672/</a></p>
-</blockquote>
-<p><br><br></p>
-<p></p><h2 align="center">卷三 · 少年</h2><p></p>
-<p></p><h4 align="center">第三部 · 阿达 &lt;部分段落节选 P275-P282&gt;</h4><br><br><p></p>
-<p>克里斯朵夫认为责任是例外的固然不错，但爱情也一样是例外的。一切都是例外的。一切有点儿价值的东西，它的最可怕的敌人，并非是不好的东西，–（连恶意也有它的价值，）–而是它本身成了习惯性。心灵的致命的仇敌，乃是时间的磨蚀。</p>
-<p>阿达开始厌倦了。她不够聪明，不知道在一个像克里斯朵夫那样生机勃勃的人身上，想法使她的爱情与日俱新。在这次爱情中间，她的感官和虚荣心已经把所有的乐趣都榨取到了。现在她只剩下一桩乐趣，就是把爱情毁灭。她有那种暧昧的本能，为多少女子（连善良的在内）多少男子（连聪明的在内）所共有的。–他们都不能在人生中有所创造：作品，儿女，行动，什么都不能，但还有相当的生命力，受不了自己的一无所用。他们但愿别人跟自己一样的没用，便竭力想做到这一点。有时候这是无心的；他们一发觉这种居心不良的欲望，就大义凌然的把它打消。但多数的时候他们鼓励这种欲望，尽量把一切活着的，喜欢活着的，有资格活着的，加以摧毁；而摧毁的程度当然要看他们的力量如何：有些事小规模的，仅仅以周围亲近的人为对象；有些是大举进攻，以广大的群众为目标。把伟大的人物伟大的思想拉下来，拉得跟自己一般高低的批评家，还有以引诱爱人堕落为快的女孩子，是两种性质相同的恶兽。–可是后面的一种更讨人喜欢。</p>
-<p>因此阿达极想把克里斯朵夫腐化一下，使他屈辱。其实她还没有这个力量。便是腐化人家，她那点聪明也嫌不够；她自己也觉得，所以她怀恨克里斯朵夫的一大原因，就是她的爱情没有力量伤害他。她不承认有伤害他的欲望；要是能阻止自己，也许她还不会这么做。但她认为要伤害他而办不到未免太岂有此理。倘使一个女人没有一种幻像，使她觉得能完全驾驭那个爱她的人，给他不论是好是坏的影响，那就是这个男人爱她爱得不够，而她非要试试自己的力量不可了。克里斯朵夫没有留意到这些，所以阿达说着玩儿问他：<br>
-          <!--noindex-->
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2017/08/21/Jean-Christophe-Note/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://www.mkidding.com/2017/08/04/mysql-explain/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="ta_shuo">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="http://ogslmd0ql.bkt.clouddn.com/oUkcKj6KyFo9sOkbc4QkIQIKh688_583916a5371c5">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="ta_shuo">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="ta_shuo" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/08/04/mysql-explain/" itemprop="url">
-                  MySQL的explain文档
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-04T15:12:48+08:00">
-                2017-08-04
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <a href="/2017/08/04/mysql-explain/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/08/04/mysql-explain/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2017/08/04/mysql-explain/" class="leancloud_visitors" data-flag-title="MySQL的explain文档">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>文档原地址：<a href="https://dev.mysql.com/doc/refman/5.7/en/explain-output.html" target="_blank" rel="external">EXPLAIN Output Format</a></p>
-<blockquote>
-<p>EXPLAIN提供一些MySQL执行SQL语句的信息，包括SELECT, DELETE, INSERT, REPLACE和UPDATE等语句。</p>
-<p><strong>MySQL 5.6.3之前只支持SELECT</strong>。</p>
-</blockquote>
-<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>EXPLAIN作用于SELECT语句时会返回一列信息。SELECT语句会按照一定顺序输出表的内容。MySQL使用循环嵌套的方式处理所有的连表操作。这意味着MySQL会从第一张表中读取一行数据，然后在第二张表中读出相匹配的数据，然后第三张表等等。当所有的表都被执行到，MySQL会输出选中的列并且回溯表的数据直到找到匹配更多行的表。从找到的这个表里面读取下一行数据，然后下一个表。</p>
-<p>EXPLAIN的输出包含不同的分割开来的数据。另外，对于SELECT语句，EXPLAIN还会生成一些额外的信息与<code>SHOW WARNING</code>的输出一起显示。</p>
-<h2 id="输出内容"><a href="#输出内容" class="headerlink" title="输出内容"></a>输出内容</h2><p>下面介绍<code>EXPLAIN</code>命令的输出内容，稍后会补充<code>type</code>,<code>Extra</code>两个字段的信息。</p>
-<p><code>EXPLAIN</code>输出的每行信息都对应于相应的一张表。每行输出的内容都总结在下文的表格中，表格最后一列是更加详细的说明。表格第一列是字段名，第二列是当加了<code>FORMAT=JSON</code>参数时跟第一列相同概念的字段名。<br>
-          <!--noindex-->
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2017/08/04/mysql-explain/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2002,7 +2015,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">48</span>
+              <span class="site-state-item-count">50</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
