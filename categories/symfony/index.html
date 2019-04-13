@@ -124,7 +124,7 @@
 
 
 <script type="text/javascript">
-    if (window.location.protocol == "http:")
+    if (window.location.protocol == "http:" && window.location.hostname != "localhost")
         window.location.protocol = "https";
 </script>
 
@@ -329,7 +329,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">54</span>
+              <span class="site-state-item-count">55</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -472,28 +472,10 @@
 
   
 
-    <script type="text/javascript">
-      var disqus_shortname = 'dangyaming';
-      var disqus_identifier = 'categories/symfony/index.html';
-
-      var disqus_title = "";
 
 
-      function run_disqus_script(disqus_script) {
-        var dsq = document.createElement('script');
-        dsq.type = 'text/javascript';
-        dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      }
 
-      run_disqus_script('count.js');
-
-      
-
-    </script>
-  
-
+	
 
 
 
